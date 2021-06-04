@@ -39,6 +39,14 @@ public class TTime{
         time.set(GregorianCalendar.SECOND,hour);
     }
 
+    public int getYear(){return time.get(GregorianCalendar.YEAR);}
+    public int getMonth(){return time.get(GregorianCalendar.MONTH);}
+    public int getDay(){return time.get(GregorianCalendar.DAY_OF_MONTH);}
+
+    public int getHour(){return time.get(GregorianCalendar.HOUR_OF_DAY);}
+    public int getMinute(){return time.get(GregorianCalendar.MINUTE);}
+    public int getSecond(){return time.get(GregorianCalendar.SECOND);}
+
     public GregorianCalendar getCalender(){return time;}
 
     //todo equals方法仅比较年月日！！！！

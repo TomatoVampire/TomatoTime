@@ -12,4 +12,7 @@ public class TFrameAttributes {
     public static final Color TODOITEMCOLOR = new Color(248, 202, 96);
     //public static final Color TODOITEMCOLOR = new Color(248, 202, 96);
 
+    public static Color copyColor(Color color){
+        return new Color(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha());
+    }
 }

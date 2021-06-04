@@ -7,7 +7,7 @@ import java.awt.*;
 //自定义的纪念日，可以无限添加（？）
 public class TDateModified implements DateMarker{
     protected String memo;
-    protected Color color = TFrameAttributes.MODIFIEDDAYCOLOR;
+    protected Color color = TFrameAttributes.copyColor(TFrameAttributes.MODIFIEDDAYCOLOR);
 
     public TDateModified(){memo=null;}
     public TDateModified(String s){

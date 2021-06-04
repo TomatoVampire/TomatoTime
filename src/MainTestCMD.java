@@ -1,21 +1,38 @@
 import TCalenders.*;
 import TCount.TCountdown;
 import TCount.TTomatoClock;
+import TTimepkg.TClock;
 import TTimepkg.TTime;
 
 import java.util.Scanner;
+import java.util.TimeZone;
 
 
 public class MainTestCMD {
     //private MainTest maim = new MainTest();
     public static void main(String[] args) {
+        //countTest();
         //todolistTest();
         //calenderTest();
         timeTest();
+        //managerTest();
+    }
+
+    private static void managerTest(){
+
     }
 
     private static void timeTest(){
-
+        TClock clock= new TClock();
+        clock.synchronizeTime(TimeZone.getTimeZone("America/Los_Angeles"));
+        //clock.start();
+        //TCountdown countdown = new TCountdown(2);
+        //todo 多线程！！！！新建个无限循环的线程，计时结束后kill该进程
+        while(true)
+        {
+            //countdown.start();
+            clock.start();
+        }
     }
 
     private static void calenderTest(){

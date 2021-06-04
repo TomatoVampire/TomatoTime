@@ -13,6 +13,7 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow{
 
     protected Timer timer;
     protected ActionListener task;
+    protected boolean isFlowing;
 
     protected class MyTimeAction implements ActionListener{
         @Override
@@ -21,8 +22,6 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow{
         }
     }
 
-
-    protected boolean isFlowing;
     public TTimeFlowSkeleton(){
         isFlowing = false;
         task = new MyTimeAction();
@@ -31,6 +30,7 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow{
        // timer.s
     }
 
+    //todo 新建个无限循环start()的线程，计时结束后kill该进程（或许在frame中会修好？）
     @Override
     public void start() {
         //从现在开始，进行this的操作,单位为秒

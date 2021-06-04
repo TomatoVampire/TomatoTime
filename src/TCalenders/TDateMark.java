@@ -8,15 +8,18 @@ import java.awt.*;
 public class TDateMark implements DateMarker{
     private String memo;    //日期的信息(可以自定义，不自定义的话默认是工作日、休息日这样)
     private DateType type;  //日期的种类
+    private Color color;
 
     private TDateMark(DateType type,String m){
         this.type = type;
         memo = m;
+        color = TFrameAttributes.copyColor(type.color);
     }
 
     private TDateMark(DateType type){
         this.type = type;
         memo = type.note;
+        color = TFrameAttributes.copyColor(type.color);
     }
 
     //todo 枚举类
@@ -27,7 +30,8 @@ public class TDateMark implements DateMarker{
         public final String note;
         public final Color color;
         private DateType(String n, Color color){
-            this.note = n;this.color=color;
+            this.note = n;
+            this.color=TFrameAttributes.copyColor(color);
         }
     }
 
@@ -46,7 +50,7 @@ public class TDateMark implements DateMarker{
 
     @Override
     public Color getColor() {
-        return type.color;
+        return color;
     }
 
     @Override

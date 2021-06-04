@@ -28,12 +28,17 @@ public class TManager {
     //日历
     private TCalender calender;
 
-
-
     //todo TManager类的单例
-    private TManager instance = new TManager();
-    public TManager getInstance(){return instance;}
+    private TManager instance;// = new TManager();
+    public TManager getInstance(){
+        //todo 饿汉式
+        if(instance == null) instance = new TManager();
+        //else; //读取数据？
+        return instance;
+    }
     private TManager(){
+        //读取数据?
+
         //初始化
         nowtime = new TTime();
         countdown = new TCountdown();
@@ -44,6 +49,10 @@ public class TManager {
 
     //重置所有的内容，删除所有记录的待办事项等
     public void reset(){
-
+        nowtime = new TTime();
+        countdown = new TCountdown();
+        tomatoClock = new TTomatoClock();
+        calender = new TCalender();
+        isCountingDown = false;
     }
 }
