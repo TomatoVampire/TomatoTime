@@ -3,6 +3,7 @@ package TManagers;
 import TCalenders.TCalender;
 import TCount.TCountdown;
 import TCount.TTomatoClock;
+import TTimepkg.TClock;
 import TTimepkg.TTime;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 public class TManager implements Serializable {
 
     //当前时间:包含年月日时分秒
-    private TTime nowtime;
+    private TClock nowtime;
 
     //当前时刻是否在倒计时：倒计时和番茄钟不可以同时进行！
     //并发编程？
@@ -34,8 +35,8 @@ public class TManager implements Serializable {
 
     //todo TManager类的单例
     private final String saveFilePath = "savefile.txt";
-    private TManager instance;// = new TManager();
-    public TManager getInstance(){
+    private static TManager instance;// = new TManager();
+    public static TManager getInstance(){
         //todo 饿汉式
         if(instance == null) instance = new TManager();
         //else; //读取数据？
@@ -46,22 +47,23 @@ public class TManager implements Serializable {
         instance = TSaveFile.loadFile(saveFilePath);
         if(instance == null) {
             //初始化
-            nowtime = new TTime();
-            countdown = new TCountdown();
-            tomatoClock = new TTomatoClock();
-            calender = new TCalender();
-            isCountingDown = false;
+            reset();
         }
     }
 
     //重置所有的内容，删除所有记录的待办事项等
     public void reset(){
-        nowtime = new TTime();
+        nowtime = new TClock();
         countdown = new TCountdown();
         tomatoClock = new TTomatoClock();
         calender = new TCalender();
         isCountingDown = false;
     }
+
+    public TClock getNowTime(){return nowtime;}
+    public TCalender getCalender(){return calender;}
+    public TCountdown getCountdown(){return countdown;}
+    public TTomatoClock getTomatoClock(){return tomatoClock;}
 
     //保存数据
     public void saveFile(){

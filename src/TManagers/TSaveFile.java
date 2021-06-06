@@ -14,7 +14,8 @@ public class TSaveFile {
             objectOutputStream.close();
         }
         catch (Exception e){
-            System.out.println(e.getCause());
+            //System.out.println(e.getCause());
+            System.out.println("创建文件失败！");
             return 0;
         }
         return 1;
@@ -28,7 +29,8 @@ public class TSaveFile {
             return (T)got;
         }
         catch (Exception e){
-            System.out.println(e.getCause());
+            //System.out.println(e.getCause());
+            System.out.println("读取 "+path+" 文件失败！");
             return null;
         }
     }

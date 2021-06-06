@@ -10,13 +10,13 @@ import javax.swing.Timer;
 //import java.util.TimerTask;
 
 //todo 抽象骨架类 时间流动类
-public abstract class TTimeFlowSkeleton implements TTimeFlow, Serializable {
+public abstract class TTimeFlowSkeleton implements TTimeFlow {
 
     protected Timer timer;
     protected ActionListener task;
     protected boolean isFlowing;
 
-    protected class MyTimeAction implements ActionListener{
+    protected class MyTimeAction implements ActionListener,Serializable{
         @Override
         public void actionPerformed(ActionEvent e) {
             setTask();

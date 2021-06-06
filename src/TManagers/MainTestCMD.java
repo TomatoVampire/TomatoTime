@@ -16,12 +16,22 @@ public class MainTestCMD {
         //countTest();
         //todolistTest();
         //calenderTest();
-        timeTest();
-        //managerTest();
+        //timeTest();
+        managerTest();
+    }
+
+    private static void loadManagerTest(){
+        TManager manager = TManager.getInstance();
+        System.out.println(manager.getCalender().getDateEvents(new TTime()).getTodoItem(0));
     }
 
     private static void managerTest(){
+        TManager manager = TManager.getInstance();
+        manager.getCalender().registerDateEvents(new TTime(),new TDateContainer());
+        manager.getCalender().getDateEvents(new TTime()).addTodoItem("作业a");
+        System.out.println(manager.getCalender().getDateEvents(new TTime()).getTodoItem(0));
 
+        manager.saveFile();
     }
 
     private static void timeTest(){
