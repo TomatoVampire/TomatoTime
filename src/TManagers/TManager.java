@@ -1,9 +1,13 @@
+package TManagers;
+
 import TCalenders.TCalender;
 import TCount.TCountdown;
 import TCount.TTomatoClock;
 import TTimepkg.TTime;
 
-public class TManager {
+import java.io.Serializable;
+
+public class TManager implements Serializable {
 
     //当前时间:包含年月日时分秒
     private TTime nowtime;
@@ -29,6 +33,7 @@ public class TManager {
     private TCalender calender;
 
     //todo TManager类的单例
+    private final String saveFilePath = "savefile.txt";
     private TManager instance;// = new TManager();
     public TManager getInstance(){
         //todo 饿汉式
@@ -38,13 +43,15 @@ public class TManager {
     }
     private TManager(){
         //读取数据?
-
-        //初始化
-        nowtime = new TTime();
-        countdown = new TCountdown();
-        tomatoClock = new TTomatoClock();
-        calender = new TCalender();
-        isCountingDown = false;
+        instance = TSaveFile.loadFile(saveFilePath);
+        if(instance == null) {
+            //初始化
+            nowtime = new TTime();
+            countdown = new TCountdown();
+            tomatoClock = new TTomatoClock();
+            calender = new TCalender();
+            isCountingDown = false;
+        }
     }
 
     //重置所有的内容，删除所有记录的待办事项等
@@ -55,4 +62,10 @@ public class TManager {
         calender = new TCalender();
         isCountingDown = false;
     }
+
+    //保存数据
+    public void saveFile(){
+        TSaveFile.saveFile(instance, saveFilePath);
+    }
+
 }

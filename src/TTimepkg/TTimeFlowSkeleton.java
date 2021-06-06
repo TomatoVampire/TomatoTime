@@ -2,6 +2,7 @@ package TTimepkg;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 import javax.swing.Timer;
@@ -9,7 +10,7 @@ import javax.swing.Timer;
 //import java.util.TimerTask;
 
 //todo 抽象骨架类 时间流动类
-public abstract class TTimeFlowSkeleton implements TTimeFlow{
+public abstract class TTimeFlowSkeleton implements TTimeFlow, Serializable {
 
     protected Timer timer;
     protected ActionListener task;

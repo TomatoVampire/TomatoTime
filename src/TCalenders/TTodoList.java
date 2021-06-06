@@ -1,9 +1,10 @@
 package TCalenders;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TTodoList {
+public class TTodoList implements Serializable {
     //集合Item
     protected List<TTodoItem> todolist;
 

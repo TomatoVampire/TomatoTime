@@ -3,9 +3,10 @@ package TCalenders;
 import TFrames.TFrameAttributes;
 
 import java.awt.*;
+import java.io.Serializable;
 
 //自定义的纪念日，可以无限添加（？）
-public class TDateModified implements DateMarker{
+public class TDateModified implements DateMarker, Serializable {
     protected String memo;
     protected Color color = TFrameAttributes.copyColor(TFrameAttributes.MODIFIEDDAYCOLOR);
 

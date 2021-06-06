@@ -2,11 +2,12 @@ package TCalenders;
 
 import TTimepkg.TTime;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 //日期集合？
-public class TCalender {
+public class TCalender implements Serializable {
     //记录的那些日期的所有事件，key为TTime!
     private Map<TTime, TDateContainer> dates;
 

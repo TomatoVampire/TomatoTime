@@ -1,10 +1,11 @@
 package TTimepkg;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 //包装的时间类，包含年月日时分秒信息，比较时仅比较年月日
-public class TTime{
+public class TTime implements Serializable {
     //全新的Date类？？
     protected GregorianCalendar time;
 

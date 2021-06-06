@@ -1,10 +1,11 @@
 package TTimepkg;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 //todo TTime包装类
-public class TClock extends TTimeFlowSkeleton{
+public class TClock extends TTimeFlowSkeleton implements Serializable {
 
     private TTime time;
     //setclock

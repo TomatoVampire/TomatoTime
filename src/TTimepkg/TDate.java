@@ -1,8 +1,9 @@
 package TTimepkg;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class TDate extends TTime{
+public class TDate extends TTime implements Serializable {
     @Override
     public int hashCode(){
         int code;

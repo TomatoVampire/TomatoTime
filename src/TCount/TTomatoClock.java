@@ -1,6 +1,8 @@
 package TCount;
 
-public class TTomatoClock extends TCountdown{
+import java.io.Serializable;
+
+public class TTomatoClock extends TCountdown implements Serializable {
     //连续番茄计数:中途中断番茄，关闭应用重开都为0！
     private int continuecount;
     //当前倒计时

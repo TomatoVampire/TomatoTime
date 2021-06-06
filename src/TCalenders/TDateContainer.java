@@ -1,11 +1,12 @@
 package TCalenders;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 //某一日的日期，包含日期形式、番茄数、
-public class TDateContainer {
+public class TDateContainer implements Serializable {
     //当天的番茄计数
     private long tomatoCount;
     //当天的时间标记(必填！)

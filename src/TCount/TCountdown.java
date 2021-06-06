@@ -3,11 +3,12 @@ import TTimepkg.TTimeFlow;
 import TTimepkg.TTimeFlowSkeleton;
 
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 
-public class TCountdown extends TTimeFlowSkeleton {
+public class TCountdown extends TTimeFlowSkeleton implements Serializable {
 
     protected long initialTimer;
     protected long nowtimer;

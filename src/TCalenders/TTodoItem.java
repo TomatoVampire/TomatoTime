@@ -3,8 +3,9 @@ package TCalenders;
 import TFrames.TFrameAttributes;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class TTodoItem implements DateMarker,Comparable<TTodoItem>,Cloneable{
+public class TTodoItem implements DateMarker,Comparable<TTodoItem>,Cloneable, Serializable {
     //描述
     private String description;
     //在todolist中的序号？

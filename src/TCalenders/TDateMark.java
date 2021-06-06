@@ -3,9 +3,10 @@ package TCalenders;
 import TFrames.TFrameAttributes;
 
 import java.awt.*;
+import java.io.Serializable;
 
 //工作日、假日、调休日。一天只能有一个该对象！
-public class TDateMark implements DateMarker{
+public class TDateMark implements DateMarker, Serializable {
     private String memo;    //日期的信息(可以自定义，不自定义的话默认是工作日、休息日这样)
     private DateType type;  //日期的种类
     private Color color;
