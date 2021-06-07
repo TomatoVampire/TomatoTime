@@ -18,6 +18,7 @@ public class MainTestCMD {
         //calenderTest();
         //timeTest();
         managerTest();
+        loadManagerTest();
     }
 
     private static void loadManagerTest(){
@@ -26,7 +27,8 @@ public class MainTestCMD {
     }
 
     private static void managerTest(){
-        TManager manager = TManager.getInstance();
+        TManager manager = null;
+        manager=TManager.getInstance();
         manager.getCalender().registerDateEvents(new TTime(),new TDateContainer());
         manager.getCalender().getDateEvents(new TTime()).addTodoItem("作业a");
         System.out.println(manager.getCalender().getDateEvents(new TTime()).getTodoItem(0));

@@ -41,7 +41,7 @@ public class TSaveFile {
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Object got = objectInputStream.readObject();
-            return got==null;
+            return got!=null;
         }
         catch (Exception e){
             System.out.println(e.getCause());

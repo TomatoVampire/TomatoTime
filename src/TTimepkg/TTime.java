@@ -69,8 +69,8 @@ public class TTime implements Serializable {
     public int hashCode(){
         int code;
         code = time.get(GregorianCalendar.YEAR);
-        code +=  time.get(GregorianCalendar.MONTH);
-        code +=  time.get(GregorianCalendar.DAY_OF_MONTH);
+        code =  code*31+time.get(GregorianCalendar.MONTH);
+        code =  code*31+time.get(GregorianCalendar.DAY_OF_MONTH);
         return code;
     }
 

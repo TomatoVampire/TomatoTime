@@ -24,7 +24,7 @@ public class TManager implements Serializable {
 
     //todo 获取当前时间（时：分：秒）
     public String getClock(){
-        return null;
+        return nowtime.getClock();
     }
 
     //倒计时，番茄
@@ -34,21 +34,31 @@ public class TManager implements Serializable {
     private TCalender calender;
 
     //todo TManager类的单例
-    private final String saveFilePath = "savefile.txt";
+    private static final String saveFilePath = "savefile.txt";
     private static TManager instance;// = new TManager();
     public static TManager getInstance(){
         //todo 饿汉式
-        if(instance == null) instance = new TManager();
+        if(instance==null) {
+            //instance = new TManager();
+            if(loadManager() == 0) instance = new TManager();
+        }
         //else; //读取数据？
         return instance;
     }
-    private TManager(){
-        //读取数据?
-        instance = TSaveFile.loadFile(saveFilePath);
-        if(instance == null) {
-            //初始化
-            reset();
+
+    private static int loadManager(){
+        if(TSaveFile.hasFile(saveFilePath)) {
+            instance = TSaveFile.loadFile(saveFilePath);
+            return 1;
         }
+        else
+        {
+            return 0;
+        }
+    }
+    private TManager(){
+        nowtime.start();
+        reset();
     }
 
     //重置所有的内容，删除所有记录的待办事项等
