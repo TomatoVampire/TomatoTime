@@ -1,6 +1,6 @@
 package TCalenders;
 
-import TFrames.TFrameAttributes;
+import TFrames.TFrameTools;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -14,25 +14,25 @@ public class TDateMark implements DateMarker, Serializable {
     private TDateMark(DateType type,String m){
         this.type = type;
         memo = m;
-        color = TFrameAttributes.copyColor(type.color);
+        color = TFrameTools.copyColor(type.color);
     }
 
     private TDateMark(DateType type){
         this.type = type;
         memo = type.note;
-        color = TFrameAttributes.copyColor(type.color);
+        color = TFrameTools.copyColor(type.color);
     }
 
     //todo 枚举类
     public static enum DateType{
-        WORKDAY("工作日", TFrameAttributes.WORKDAYCOLOR),//工作日，无标记
-        ULTRAWORK("调休日",TFrameAttributes.ULTRAWORKDAYCOLOR),//调休日，红色
-        RESTDAY("休息日",TFrameAttributes.HOLIDAYCOLOR);//休息日（包含法定节假日），绿色//自定义日期，紫色
+        WORKDAY("工作日", TFrameTools.WORKDAYCOLOR),//工作日，无标记
+        ULTRAWORK("调休日", TFrameTools.ULTRAWORKDAYCOLOR),//调休日，红色
+        RESTDAY("休息日", TFrameTools.HOLIDAYCOLOR);//休息日（包含法定节假日），绿色//自定义日期，紫色
         public final String note;
         public final Color color;
         private DateType(String n, Color color){
             this.note = n;
-            this.color=TFrameAttributes.copyColor(color);
+            this.color= TFrameTools.copyColor(color);
         }
     }
 

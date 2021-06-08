@@ -43,8 +43,12 @@ public class TSaveFile {
             Object got = objectInputStream.readObject();
             return got!=null;
         }
-        catch (Exception e){
-            System.out.println(e.getCause());
+        catch (InvalidClassException e1){
+            System.out.println("类对象无法获取！可能存档后对象发生结构变化！");
+            return false;
+        }
+        catch (Exception e2){
+            System.out.println("获取 "+path+" 文件失败！");
             return false;
         }
     }

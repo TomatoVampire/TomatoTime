@@ -1,6 +1,7 @@
 package TManagers;
 
 import TCalenders.TCalender;
+import TCalenders.TDateContainer;
 import TCount.TCountdown;
 import TCount.TTomatoClock;
 import TTimepkg.TClock;
@@ -23,7 +24,7 @@ public class TManager implements Serializable {
     }
 
     //todo 获取当前时间（时：分：秒）
-    public String getClock(){
+    public String getClockString(){
         return nowtime.getClock();
     }
 
@@ -57,7 +58,6 @@ public class TManager implements Serializable {
         }
     }
     private TManager(){
-        nowtime.start();
         reset();
     }
 
@@ -68,6 +68,7 @@ public class TManager implements Serializable {
         tomatoClock = new TTomatoClock();
         calender = new TCalender();
         isCountingDown = false;
+        nowtime.start();
     }
 
     public TClock getNowTime(){return nowtime;}
@@ -75,9 +76,18 @@ public class TManager implements Serializable {
     public TCountdown getCountdown(){return countdown;}
     public TTomatoClock getTomatoClock(){return tomatoClock;}
 
+    //获取当日的日历
+    public TDateContainer getContainerofDate(TTime time){
+        try{
+            return calender.getDateEvents(time);
+        }catch (Exception e){
+            System.out.println("Manager：找不到当天的container!");
+            return null;
+        }
+    }
+
     //保存数据
     public void saveFile(){
         TSaveFile.saveFile(instance, saveFilePath);
     }
-
 }

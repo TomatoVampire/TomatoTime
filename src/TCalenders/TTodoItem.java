@@ -1,6 +1,6 @@
 package TCalenders;
 
-import TFrames.TFrameAttributes;
+import TFrames.TFrameTools;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -10,7 +10,7 @@ public class TTodoItem implements DateMarker,Comparable<TTodoItem>,Cloneable, Se
     private String description;
     //在todolist中的序号？
     private int orderInList;
-    private Color color = TFrameAttributes.copyColor(TFrameAttributes.TODOITEMCOLOR);
+    private Color color = TFrameTools.copyColor(TFrameTools.TODOITEMCOLOR);
 
     public TTodoItem(){description = null;}
     public TTodoItem(String i){setDescription(i);}
@@ -71,6 +71,6 @@ public class TTodoItem implements DateMarker,Comparable<TTodoItem>,Cloneable, Se
     @Override
     public Color getColor() {
         //待办事项的颜色为黄色
-        return TFrameAttributes.TODOITEMCOLOR;
+        return TFrameTools.TODOITEMCOLOR;
     }
 }

@@ -16,9 +16,9 @@ public class MainTestCMD {
         //countTest();
         //todolistTest();
         //calenderTest();
-        //timeTest();
-        managerTest();
-        loadManagerTest();
+        timeTest();
+        //managerTest();
+        //loadManagerTest();
     }
 
     private static void loadManagerTest(){
@@ -29,10 +29,6 @@ public class MainTestCMD {
     private static void managerTest(){
         TManager manager = null;
         manager=TManager.getInstance();
-        manager.getCalender().registerDateEvents(new TTime(),new TDateContainer());
-        manager.getCalender().getDateEvents(new TTime()).addTodoItem("作业a");
-        System.out.println(manager.getCalender().getDateEvents(new TTime()).getTodoItem(0));
-
         manager.saveFile();
     }
 
@@ -42,11 +38,10 @@ public class MainTestCMD {
         //clock.start();
         //TCountdown countdown = new TCountdown(2);
         //todo 多线程！！！！新建个无限循环的线程，计时结束后kill该进程
-        while(true)
-        {
-            //countdown.start();
-            clock.start();
-        }
+        clock.start();
+
+        TCountdown countdown = new TCountdown(3);
+        countdown.start();
     }
 
     private static void calenderTest(){

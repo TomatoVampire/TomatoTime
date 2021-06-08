@@ -49,6 +49,9 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
     //todo
     public String getClock(){
         StringBuffer temp = new StringBuffer();
+        temp.append(time.getYear() + "年");
+        temp.append(time.getMonth() + "月");
+        temp.append(time.getDay() + "日 ");
         temp.append(time.getHour() + "时");
         temp.append(time.getMinute() + "分");
         temp.append(time.getSecond() + "秒");
@@ -62,6 +65,18 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
         return temp.toString();
     }
 
+    public int getHour(){
+        return time.getHour();
+    }
+
+    public int getMinute(){
+        return time.getMinute();
+    }
+
+    public int getSecond(){
+        return time.getSecond();
+    }
+
     @Override
     public void setTask() {
         time.getCalender().add(GregorianCalendar.SECOND,1);
@@ -70,9 +85,7 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
 
     @Override
     public String toString() {
-        StringBuffer temp = new StringBuffer();
-        temp.append(Integer.toString(1));
-        return temp.toString();
+        return getClock();
     }
 
     /*@Override public int hashCode(){

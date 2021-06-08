@@ -3,18 +3,17 @@ package TTimepkg;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.Date;
 import javax.swing.Timer;
 //import java.util.Timer;
 //import java.util.TimerTask;
 
 //todo 抽象骨架类 时间流动类
-public abstract class TTimeFlowSkeleton implements TTimeFlow {
+public abstract class TTimeFlowSkeleton implements TTimeFlow,Runnable {
 
     protected Timer timer;
     protected ActionListener task;
     protected boolean isFlowing;
+    protected Thread thread;
 
     protected class MyTimeAction implements ActionListener,Serializable{
         @Override
@@ -27,13 +26,12 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow {
         isFlowing = false;
         task = new MyTimeAction();
         timer = new Timer(1000,task);
-
+        thread = new Thread(this, "Time flow");
        // timer.s
     }
 
     //todo 新建个无限循环start()的线程，计时结束后kill该进程（或许在frame中会修好？）
-    @Override
-    public void start() {
+    public void startMethod() {
         //从现在开始，进行this的操作,单位为秒
         if(!isFlowing){
             timer.start();
@@ -62,4 +60,16 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow {
 
     //监听器？？？
     //放进gui的时候可能需要重写
+
+    @Override
+    public void run() {
+        while(true) {
+            if(!isFlowing) startMethod();
+        }
+    }
+
+    public void start(){
+        thread = new Thread (this, "Time flow");
+        thread.start ();
+    }
 }

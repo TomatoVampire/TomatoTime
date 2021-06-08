@@ -1,12 +1,8 @@
 package TCount;
-import TTimepkg.TTimeFlow;
 import TTimepkg.TTimeFlowSkeleton;
 
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Timer;
 
 public class TCountdown extends TTimeFlowSkeleton implements Serializable {
 
@@ -67,7 +63,7 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
 
     //todo 开始计时
     public void startCount(){
-        start();
+        startMethod();
         System.out.println("开始计时");
     }
 
