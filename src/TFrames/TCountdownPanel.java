@@ -1,4 +1,4 @@
 package TFrames;
 
-public class TCountdownPanel {
+public class TCountdownPanel extends TPanel{
 }

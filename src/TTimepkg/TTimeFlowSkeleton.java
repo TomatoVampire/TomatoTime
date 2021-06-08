@@ -69,7 +69,7 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow,Runnable {
     }
 
     public void start(){
-        thread = new Thread (this, "Time flow");
+        if(thread == null) thread = new Thread (this, "Time flow");
         thread.start ();
     }
 }

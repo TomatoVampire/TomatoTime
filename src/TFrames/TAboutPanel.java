@@ -1,4 +1,4 @@
 package TFrames;
 
-public class TAboutPanel {
+public class TAboutPanel extends TPanel{
 }

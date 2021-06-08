@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class TMainFrame {
     JFrame mainFrame;
@@ -95,6 +97,7 @@ public class TMainFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                System.out.println("点击了切换clock界面按钮");
                 CardLayout layout = (CardLayout) cardPanel.getLayout();
                 layout.show(cardPanel, whereto);
             }catch (Exception ex){
@@ -111,13 +114,18 @@ public class TMainFrame {
         mainFrame.setBackground(new Color(255, 255, 255, 255));
         mainFrame.setLayout(new BorderLayout());
         //todo 关闭行为：保存instance，关闭程序
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                manager.saveFile();
+                System.exit(0);
+            }
+        });
         root = mainFrame.getContentPane();
         //各个子页面
         clockPanel = new TClockPanel().getPanel();
 
         //卡片布局
-
         initCardPanel();
         root.add(cardPanel,BorderLayout.CENTER);
         //侧边栏

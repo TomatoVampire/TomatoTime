@@ -9,8 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TClockPanel {
-    JPanel rpanel;
+public class TClockPanel extends TPanel {
+    //JPanel panel;
     JLabel hour;
     JLabel minute;
     JLabel second;
@@ -30,8 +30,8 @@ public class TClockPanel {
     }
 
     private void initClockFrame(){
-        rpanel = new JPanel();
-        rpanel.setLayout(new AfAnyWhere());
+        panel = new JPanel();
+        panel.setLayout(new AfAnyWhere());
         second = new JLabel();
         minute = new JLabel();
         hour = new JLabel();
@@ -55,7 +55,7 @@ public class TClockPanel {
         temppanel.add(second);
         //temppanel.add(hour);
 
-        rpanel.add(temppanel, AfMargin.CENTER);
+        panel.add(temppanel, AfMargin.CENTER);
         //rpanel.add(colon1,AfMargin.TOP_CENTER);
 
         timer = new Timer(100,new TimeAction());
@@ -63,10 +63,11 @@ public class TClockPanel {
     }
 
     public TClockPanel(){
-        initClockFrame();
+        super();initClockFrame();
     }
 
-    public JPanel getPanel(){return rpanel;}
+    @Override
+    public JPanel getPanel(){return panel;}
 
     public static void main(String[] args) {
         JFrame test = new JFrame("clocktest");

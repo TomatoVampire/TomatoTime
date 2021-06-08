@@ -47,9 +47,16 @@ public class TManager implements Serializable {
         return instance;
     }
 
+    //读取数据（仅需读取calender）
     private static int loadManager(){
         if(TSaveFile.hasFile(saveFilePath)) {
-            instance = TSaveFile.loadFile(saveFilePath);
+            instance = new TManager();
+            //仅读取calender
+            instance.calender = TSaveFile.loadFile(saveFilePath);
+            //instance.isCountingDown = false;
+            //instance.nowtime = new TClock();
+            //instance.countdown = new TCountdown();
+            //instance.tomatoClock = new TTomatoClock();
             return 1;
         }
         else
@@ -57,6 +64,11 @@ public class TManager implements Serializable {
             return 0;
         }
     }
+    //保存数据（仅需保存calender）
+    public void saveFile(){
+        TSaveFile.saveFile(instance.calender, saveFilePath);
+    }
+
     private TManager(){
         reset();
     }
@@ -86,8 +98,5 @@ public class TManager implements Serializable {
         }
     }
 
-    //保存数据
-    public void saveFile(){
-        TSaveFile.saveFile(instance, saveFilePath);
-    }
+
 }
