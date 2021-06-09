@@ -6,6 +6,7 @@ import TCount.TTomatoClock;
 import TTimepkg.TClock;
 import TTimepkg.TTime;
 
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.TimeZone;
 
@@ -16,9 +17,16 @@ public class MainTestCMD {
         //countTest();
         //todolistTest();
         //calenderTest();
-        timeTest();
+        //timeTest();
         //managerTest();
         //loadManagerTest();
+        GCalenTest();
+    }
+
+    private static void GCalenTest(){
+        TTime time = new TTime(2021,5,1);
+        System.out.println(time.get(GregorianCalendar.DAY_OF_MONTH));
+        System.out.println(time.get(GregorianCalendar.DAY_OF_WEEK)-1);
     }
 
     private static void loadManagerTest(){

@@ -1,6 +1,7 @@
 package TTimepkg;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -24,6 +25,8 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
         this(y,month,d);
         setClock(h,minute,s);
     }
+
+    //public void setTime(TTime t){time.}
 
     public void setClock(int h,int m,int s){
         time.setClock(h,m,s);
@@ -77,6 +80,10 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
         return time.getSecond();
     }
 
+    public int getYear(){return time.getYear();}
+    public int getMonth(){return time.getMonth();}
+    public int getDay(){return time.getDay();}
+
     @Override
     public void setTask() {
         time.getCalender().add(GregorianCalendar.SECOND,1);
@@ -87,6 +94,12 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
     public String toString() {
         return getClock();
     }
+
+    public Calendar getCalenderObj(){
+        return time.getCalenderObj();
+    }
+
+    public TTime getTTime(){return time;}
 
     /*@Override public int hashCode(){
         int result = time.get(GregorianCalendar.HOUR_OF_DAY);

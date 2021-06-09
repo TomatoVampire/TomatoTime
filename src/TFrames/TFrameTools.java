@@ -14,8 +14,9 @@ public class TFrameTools {
     public static final Color SIDEPANELCOLOR = new Color(63, 182, 48);
     public static final Color BUTTONCOLOR = new Color(255, 255, 255);
 
-    public static final Font CLOCKFONT = new Font("Consolas",1,20);
+    public static final Font CLOCKFONT = new Font("Consolas",1,40);
     public static final Font BUTTONFONT = new Font("Consolas",1,20);
+    public static final Font TEXTFONT = new Font("微软雅黑",1,20);
     //public static final Color TODOITEMCOLOR = new Color(248, 202, 96);
 
     public static Color copyColor(Color color){
@@ -24,7 +25,7 @@ public class TFrameTools {
 
     public static JButton createTButton(String name){
         JButton button = new JButton(name);
-        button.setFont(TFrameTools.BUTTONFONT);
+        button.setFont(TFrameTools.TEXTFONT);
         button.setBackground(TFrameTools.copyColor(TFrameTools.BUTTONCOLOR));
         //button.setContentAreaFilled(false);
         button.setFocusPainted(false);

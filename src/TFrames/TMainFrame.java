@@ -45,7 +45,7 @@ public class TMainFrame {
         //if(clockPanel==null || calenderPanel==null || countdownPanel==null || aboutPanel==null){ throw new NullPointerException("出错！时钟/日历/倒计时面板为null!"); }
         //加面板进卡片
         cardPanel.add(clockPanel, "clockPanel");
-        //cardPanel.add(calenderPanel, "calenderPanel");
+        cardPanel.add(calenderPanel, "calenderPanel");
         //cardPanel.add(countdownPanel, "countdownPanel");
         //cardPanel.add(aboutPanel, "aboutPanel");
     }
@@ -78,8 +78,8 @@ public class TMainFrame {
         setSideMemoPanel();
 
 
-        clockbtn.addActionListener(new SwitchCardAction("cardLayout"));
-        //calenderbtn =;
+        clockbtn.addActionListener(new SwitchCardAction("clockPanel"));
+        calenderbtn.addActionListener(new SwitchCardAction("calenderPanel"));
         //countdownbtn =;
         //aboutbtn = TFr;
 
@@ -97,7 +97,7 @@ public class TMainFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                System.out.println("点击了切换clock界面按钮");
+                System.out.println("点击了切换"+whereto+"界面按钮");
                 CardLayout layout = (CardLayout) cardPanel.getLayout();
                 layout.show(cardPanel, whereto);
             }catch (Exception ex){
@@ -124,6 +124,7 @@ public class TMainFrame {
         root = mainFrame.getContentPane();
         //各个子页面
         clockPanel = new TClockPanel().getPanel();
+        calenderPanel = new TCalenderPanel().getPanel();
 
         //卡片布局
         initCardPanel();

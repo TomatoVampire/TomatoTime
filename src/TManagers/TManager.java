@@ -98,5 +98,10 @@ public class TManager implements Serializable {
         }
     }
 
+    //当日是否有日历容器
+    public boolean hasContainerofDate(TTime time){
+        return calender.getDateEvents(time)!=null;
+    }
+
 
 }

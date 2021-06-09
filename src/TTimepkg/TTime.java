@@ -1,6 +1,7 @@
 package TTimepkg;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -18,7 +19,8 @@ public class TTime implements Serializable {
     }
 
     public TTime(int year,int month,int day){
-        time = new GregorianCalendar(year, month, day);
+        time = new GregorianCalendar();
+        setDate(year,month,day);
     }
 
     //todo 联网获取时间，参数：时区 会更新时钟和日期
@@ -29,7 +31,7 @@ public class TTime implements Serializable {
     //设置日期，参数：年月日
     public void setDate(int year,int month,int day){
         time.set(GregorianCalendar.YEAR,year);
-        time.set(GregorianCalendar.MONTH,month);
+        time.set(GregorianCalendar.MONTH,month-1);
         time.set(GregorianCalendar.DAY_OF_MONTH,day);
     }
 
@@ -41,7 +43,7 @@ public class TTime implements Serializable {
     }
 
     public int getYear(){return time.get(GregorianCalendar.YEAR);}
-    public int getMonth(){return time.get(GregorianCalendar.MONTH);}
+    public int getMonth(){return time.get(GregorianCalendar.MONTH)+1;}
     public int getDay(){return time.get(GregorianCalendar.DAY_OF_MONTH);}
 
     public int getHour(){return time.get(GregorianCalendar.HOUR_OF_DAY);}
@@ -49,6 +51,14 @@ public class TTime implements Serializable {
     public int getSecond(){return time.get(GregorianCalendar.SECOND);}
 
     public GregorianCalendar getCalender(){return time;}
+
+    public int get(int field){
+        return time.get(field);
+    }
+
+    public Calendar getCalenderObj(){
+        return time;
+    }
 
     //todo equals方法仅比较年月日！！！！
     @Override
@@ -74,6 +84,17 @@ public class TTime implements Serializable {
         return code;
     }
 
-    //todo 多线程：时间流逝，以秒算。不需要和manager的时间同步
+    @Override
+    public String toString(){
+        StringBuffer temp = new StringBuffer();
+        temp.append(getYear() + "年");
+        temp.append(getMonth() + "月");
+        temp.append(getDay() + "日 ");
+        temp.append(getHour() + "时");
+        temp.append(getMinute() + "分");
+        temp.append(getSecond() + "秒");
+        return temp.toString();
+    }
+
 
 }

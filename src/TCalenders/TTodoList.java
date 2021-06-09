@@ -70,6 +70,8 @@ public class TTodoList implements Serializable {
         todolist.get(index).setDescription(memo);
     }
 
+    public boolean isEmpty(){return getSize()<=0;}
+
     public int getSize(){
         return todolist.size();
     }
