@@ -100,6 +100,7 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
     }
 
     public TTime getTTime(){return time;}
+    public void setTTime(TTime t){time = t;}
 
     /*@Override public int hashCode(){
         int result = time.get(GregorianCalendar.HOUR_OF_DAY);

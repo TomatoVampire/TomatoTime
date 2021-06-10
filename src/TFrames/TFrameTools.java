@@ -1,6 +1,7 @@
 package TFrames;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 //todo 工具类
@@ -13,10 +14,17 @@ public class TFrameTools {
     public static final Color TODOITEMCOLOR = new Color(248, 202, 96);
     public static final Color SIDEPANELCOLOR = new Color(63, 182, 48);
     public static final Color BUTTONCOLOR = new Color(255, 255, 255);
+    public static final Color TRANSPARANT = new Color(0,0,0,0);
+    public static final Color SELECTEDDATE = new Color(36, 154, 227);
+
 
     public static final Font CLOCKFONT = new Font("Consolas",1,40);
     public static final Font BUTTONFONT = new Font("Consolas",1,20);
     public static final Font TEXTFONT = new Font("微软雅黑",1,20);
+    public static final Border SelectedDateBorder = BorderFactory.createLineBorder(SELECTEDDATE,5);
+    public static final Border EmptyDateBorder = BorderFactory.createLineBorder(new Color(0,0,0,0),5);
+
+
     //public static final Color TODOITEMCOLOR = new Color(248, 202, 96);
 
     public static Color copyColor(Color color){
@@ -30,5 +38,18 @@ public class TFrameTools {
         //button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         return button;
+    }
+
+    public static JLabel createLabel(String name){
+        JLabel label = new JLabel(name);
+        label.setFont(TFrameTools.TEXTFONT);
+        label.setBackground(TFrameTools.TRANSPARANT);
+        return label;
+    }
+
+    public static JPanel createPanel(LayoutManager manager){
+        JPanel panel = new JPanel(manager);
+        panel.setBackground(TFrameTools.TRANSPARANT);
+        return panel;
     }
 }

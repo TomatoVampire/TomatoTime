@@ -36,6 +36,9 @@ public class TDateContainer implements Serializable {
     public void addModifiedDate(TDateModified t){
         modifiedDayMarks.add(t);
     }
+    public void addModifiedDate(String memo){
+        modifiedDayMarks.add(new TDateModified(memo));
+    }
 
     public int changeModifiedDate(int index, String t, Color c){
         if(index >= modifiedDayMarks.size() || index < 0) throw new IllegalArgumentException("访问自定义日期容器的下标越界！");
@@ -66,6 +69,9 @@ public class TDateContainer implements Serializable {
     public TDateModified getModifiedDate(int index){
         if(index >= modifiedDayMarks.size() || index < 0) throw new IllegalArgumentException("访问自定义日期容器的下标越界！");
         return modifiedDayMarks.get(index);
+    }
+    public int getModifiedDateCount(){
+        return modifiedDayMarks.size();
     }
 
     //todo 普通日期的修改
@@ -119,9 +125,7 @@ public class TDateContainer implements Serializable {
     public long getTomatoCount(){return tomatoCount;}
 
     //获取大小
-    public int getModifiedDateCount(){
-        return modifiedDayMarks.size();
-    }
+
 
     public int getTodoListSize(){
         return todoList.getSize();

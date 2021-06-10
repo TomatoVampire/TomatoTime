@@ -25,6 +25,17 @@ public class TCalender implements Serializable {
         return 1;
     }
 
+    public TDateContainer createDateContainer(TTime t){
+        TDateContainer container = new TDateContainer();
+        if(registerDateEvents(t,container)==0){
+            System.out.println("创建容器失败！");
+            return null;
+        }
+        else {
+            return container;
+        }
+    }
+
     //获得容器
     public TDateContainer getDateEvents(TTime t){
         if(!dates.containsKey(t)) {return null;}

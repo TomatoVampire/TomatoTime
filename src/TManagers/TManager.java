@@ -41,7 +41,10 @@ public class TManager implements Serializable {
         //todo 饿汉式
         if(instance==null) {
             //instance = new TManager();
-            if(loadManager() == 0) instance = new TManager();
+            if(loadManager() == 0) {
+                instance = new TManager();
+                System.out.println("读取文件失败，Manager已重置。");
+            }
         }
         //else; //读取数据？
         return instance;
@@ -81,9 +84,12 @@ public class TManager implements Serializable {
         calender = new TCalender();
         isCountingDown = false;
         nowtime.start();
+        //System.out.println("Manager已重置。");
     }
 
-    public TClock getNowTime(){return nowtime;}
+    public TClock getClock(){return nowtime;}
+    public TTime getNowTime(){return nowtime.getTTime();}
+    public void setNowtime(TTime t){nowtime.setTTime(t);}
     public TCalender getCalender(){return calender;}
     public TCountdown getCountdown(){return countdown;}
     public TTomatoClock getTomatoClock(){return tomatoClock;}

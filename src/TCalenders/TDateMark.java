@@ -34,6 +34,7 @@ public class TDateMark implements DateMarker, Serializable {
             this.note = n;
             this.color= TFrameTools.copyColor(color);
         }
+        @Override public String toString(){return note;}
     }
 
     //修改

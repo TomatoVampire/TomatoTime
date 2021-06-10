@@ -47,7 +47,7 @@ public class TMainFrame {
         cardPanel.add(clockPanel, "clockPanel");
         cardPanel.add(calenderPanel, "calenderPanel");
         //cardPanel.add(countdownPanel, "countdownPanel");
-        //cardPanel.add(aboutPanel, "aboutPanel");
+        cardPanel.add(aboutPanel, "aboutPanel");
     }
 
     private void setSideMemoPanel(){
@@ -56,9 +56,9 @@ public class TMainFrame {
         sideMemoPanel.setBackground(TFrameTools.copyColor(TFrameTools.SIDEPANELCOLOR));
         JLabel label = new JLabel();
         //label.setFont();
-        label.setText(TManager.getInstance().getNowTime().getClock());
+        label.setText(TManager.getInstance().getClock().getClock());
         //label.setHorizontalAlignment(SwingConstants.CENTER);
-        Timer timer = new Timer(1000, e->label.setText(TManager.getInstance().getNowTime().getClock()) );
+        Timer timer = new Timer(1000, e->label.setText(TManager.getInstance().getClock().getClock()) );
         timer.start();
         sideMemoPanel.add(label,BorderLayout.SOUTH);
     }
@@ -81,7 +81,7 @@ public class TMainFrame {
         clockbtn.addActionListener(new SwitchCardAction("clockPanel"));
         calenderbtn.addActionListener(new SwitchCardAction("calenderPanel"));
         //countdownbtn =;
-        //aboutbtn = TFr;
+        aboutbtn.addActionListener(new SwitchCardAction("aboutPanel"));
 
 
         sidePanel.add(clockbtn);
@@ -125,6 +125,7 @@ public class TMainFrame {
         //各个子页面
         clockPanel = new TClockPanel().getPanel();
         calenderPanel = new TCalenderPanel().getPanel();
+        aboutPanel = new TAboutPanel().getPanel();
 
         //卡片布局
         initCardPanel();

@@ -3,6 +3,7 @@ package TFrames;
 import TFrames.AFLayouts.AfAnyWhere;
 import TFrames.AFLayouts.AfMargin;
 import TManagers.TManager;
+import TTimepkg.TTime;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +34,7 @@ public class TClockPanel extends TPanel {
 
     private void initClockFrame(){
         panel = new JPanel();
+        panel.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0),10));
         panel.setLayout(new AfAnyWhere());
         second = new JLabel();
         minute = new JLabel();
@@ -184,6 +186,14 @@ class TEditTimeBar extends JPanel{
           sub.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent e) {
+                  TTime temp = new TTime(
+                          TManager.getInstance().getNowTime().getYear(),
+                          TManager.getInstance().getNowTime().getMonth(),
+                          TManager.getInstance().getNowTime().getDay());
+                  temp.setClock(
+                          TManager.getInstance().getNowTime().getHour(),
+                          TManager.getInstance().getNowTime().getMinute(),
+                          TManager.getInstance().getNowTime().getSecond());
                   try{
                       TManager.getInstance().getNowTime().setDate(
                               Integer.valueOf(year.getText()).intValue(),
@@ -196,7 +206,9 @@ class TEditTimeBar extends JPanel{
                               Integer.valueOf(second.getText()).intValue());
                       JOptionPane.showMessageDialog(inpanel,"修改时间成功！");
                   }catch (Exception ex){
+                      TManager.getInstance().setNowtime(temp);
                       JOptionPane.showMessageDialog(inpanel,"输入参数有误！");
+
                   }
               }
           });

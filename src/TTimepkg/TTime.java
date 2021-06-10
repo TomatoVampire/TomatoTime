@@ -30,6 +30,7 @@ public class TTime implements Serializable {
 
     //设置日期，参数：年月日
     public void setDate(int year,int month,int day){
+        if(year<0 || month>12 || month<0 || day>31 || day<0) throw new IllegalArgumentException("出错！日期参数无效！");
         time.set(GregorianCalendar.YEAR,year);
         time.set(GregorianCalendar.MONTH,month-1);
         time.set(GregorianCalendar.DAY_OF_MONTH,day);
@@ -37,9 +38,11 @@ public class TTime implements Serializable {
 
     //设置时钟，参数为时分秒
     public void setClock(int hour,int minute,int second){
-        time.set(GregorianCalendar.HOUR,hour);
-        time.set(GregorianCalendar.MINUTE,hour);
-        time.set(GregorianCalendar.SECOND,hour);
+        if(hour<0 || hour>24||minute<0 || minute>60 || second<0 || second>60) throw new IllegalArgumentException("出错！时钟参数无效！");
+        if(hour > 12) time.set(GregorianCalendar.PM,hour-12);
+        else time.set(GregorianCalendar.AM,hour);
+        time.set(GregorianCalendar.MINUTE,minute);
+        time.set(GregorianCalendar.SECOND,second);
     }
 
     public int getYear(){return time.get(GregorianCalendar.YEAR);}
