@@ -3,6 +3,7 @@ package TFrames;
 import TCalenders.TDateContainer;
 import TCalenders.TDateMark;
 import TCalenders.TDateModified;
+import TCalenders.TTodoList;
 import TFrames.AFLayouts.AfAnyWhere;
 import TFrames.AFLayouts.AfMargin;
 import TManagers.TManager;
@@ -12,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -26,6 +28,7 @@ public class TCalenderPanel extends TPanel{
     JPanel dateDescriptionPanel;
     JPanel todoListPanel;
     TTime selectedDate;
+    JPanel listpanel;
 
     static final int MONTH_LENGTH[]
             = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -34,15 +37,20 @@ public class TCalenderPanel extends TPanel{
         panel = new JPanel();
         panel.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0),10));
         panel.setLayout(new AfAnyWhere());
+        selectedDate = TManager.getInstance().getNowTime();
         initCalenderPanel();
         paintCalenderPanel(TManager.getInstance().getNowTime());
         initDateDescriptionPanel();
-        selectedDate = TManager.getInstance().getNowTime();
+        initTodoListPanel();
 
         dateDescriptionPanel.setBackground(new Color(239, 145, 145));
         dateDescriptionPanel.setPreferredSize(new Dimension(620,340));
+
+        todoListPanel.setPreferredSize(new Dimension(300,900));
+
         panel.add(calenderFullPanel,AfMargin.TOP_LEFT);
         panel.add(dateDescriptionPanel,AfMargin.BOTTOM_LEFT);
+        panel.add(todoListPanel,AfMargin.CENTER_RIGHT);
     }
 
     private void initCalenderPanel(){
@@ -343,11 +351,116 @@ public class TCalenderPanel extends TPanel{
         }
     }
 
+    private TDateMark.DateType getDefaultType(TTime selected){
+        try {
+            int i= selected.get(GregorianCalendar.DAY_OF_WEEK);
+            TDateMark.DateType type = i==1||i==7? TDateMark.DateType.RESTDAY: TDateMark.DateType.WORKDAY;
+            return type;
+        }
+        catch (Exception e){
+            //
+            return null;
+        }
+    }
+
+    ArrayList<TodoItemPanel> todoItemPanelList;
+    final int MaxTodoItemPanelCount = 12;
+    ArrayList<String> todoStringList = new ArrayList<String>();
+    //待办事项
     private void initTodoListPanel(){
+        //待办事项条及添加待办事项的按钮
+        todoListPanel = new JPanel(new BorderLayout());
+        JLabel todolabel = TFrameTools.createLabel("待办事项");
+        JButton addbtn = TFrameTools.createTButton("+");
+        //addbtn.setFont(new Font("Consolas",0,20));
+        addbtn.setPreferredSize(new Dimension(50,40));
+        JPanel headp = TFrameTools.createPanel(new AfAnyWhere());
+        headp.setPreferredSize(new Dimension(300,80));
+        headp.setBorder(TFrameTools.EmptyDateBorder);
+        headp.add(todolabel,AfMargin.CENTER_LEFT);
+        headp.add(addbtn,AfMargin.CENTER_RIGHT);
+
+        //箱式布局？
+        listpanel = TFrameTools.createPanel(null);
+        //listpanel.setLayout(new BoxLayout(listpanel,BoxLayout.Y_AXIS));
+        listpanel.setLayout(new FlowLayout());
+        listpanel.setBackground(new Color(156, 194, 215, 255));
+        //listpanel.add(new JLabel("测试字样"));
+        todoItemPanelList = new ArrayList<>();
+
+        //最大数量为12
+        for(int i=0;i<MaxTodoItemPanelCount;i++){
+            todoItemPanelList.add(new TodoItemPanel("测试"+i,i));
+            todoItemPanelList.get(i).setVisible(false);
+            listpanel.add(todoItemPanelList.get(i).getPanel());
+        }
+
+        //todoItemPanelList = new ArrayList<>();
+        addbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //boolean b = todoItemPanelList.get(3).getPanel().isVisible();
+                //todoItemPanelList.get(3).getPanel().setVisible(!b);
+                if(todoStringList.size()>=MaxTodoItemPanelCount){
+                    JOptionPane.showMessageDialog(null,"列表满了","待办事项最多可以添加"+MaxTodoItemPanelCount+"个！",
+                            JOptionPane.PLAIN_MESSAGE);
+                    return;
+                }
+                String nstr = JOptionPane.showInputDialog(null, "添加待办事项",
+                        "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
+                todoStringList.add(nstr);
+                paintTodoListPanel();
+                panel.repaint();
+
+            }
+        });
+
+        todoListPanel.add(headp,BorderLayout.NORTH);
+        todoListPanel.add(listpanel,BorderLayout.CENTER);
+
+        panel.repaint();
 
     }
 
     private void paintTodoListPanel(){
+        try{
+            //clearListPanel();
+            int size = todoStringList.size();
+            if(size>0){
+                for(int i=0;i<size||i<MaxTodoItemPanelCount;i++){
+                    if(i >= size){
+                        todoItemPanelList.get(i).setVisible(false);
+                    }else {
+                        todoItemPanelList.get(i).setText(todoStringList.get(i));
+                        todoItemPanelList.get(i).setOrderInContainer(i);
+                        todoItemPanelList.get(i).setVisible(true);
+                        System.out.println("已绘制新的待办事项");
+                    }
+                }
+            }
+            else{
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void clearListPanel(){
+        //?
+        try {
+            if (todoItemPanelList.size() > 0) {
+                for (TodoItemPanel p : todoItemPanelList) {
+                    p.setVisible(false);
+                }
+            } else return;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void loadFromContainer(TTodoList list,TTime t){
+        todoItemPanelList.clear();
 
     }
 
@@ -356,8 +469,6 @@ public class TCalenderPanel extends TPanel{
         paintDateDescriptionPanel(selected);
         paintDateMarks(selected);
     }
-
-
 
     class TDateAction implements ActionListener{
         TDateButton button;
@@ -372,6 +483,95 @@ public class TCalenderPanel extends TPanel{
             System.out.println("选中时间："+selectedDate.toString());
             paintAll(selectedDate);
         }
+    }
+    class TodoItemPanel {
+        int orderInContainer;
+        JLabel label;
+        JPanel panel;
+        JButton finishbtn;
+        JButton editbtn;
+
+        TodoItemPanel() {
+            panel = TFrameTools.createPanel(new AfAnyWhere());
+            panel.setPreferredSize(new Dimension(300,60));
+            panel.setBackground(new Color(255, 255, 255));
+            panel.setBorder(TFrameTools.EmptyDateBorder);
+            label = TFrameTools.createLabel("",TFrameTools.SMALLTEXTFONT);
+            finishbtn = TFrameTools.createTButton("完成",TFrameTools.SMALLTEXTFONT);
+            finishbtn.setForeground(new Color(30, 130, 201));
+            editbtn = TFrameTools.createTButton("修改",TFrameTools.SMALLTEXTFONT);
+            //editbtn.setForeground();
+
+            JPanel temppanel = TFrameTools.createPanel(new FlowLayout());
+            temppanel.add(editbtn);
+            temppanel.add(finishbtn);
+            panel.add(label, AfMargin.CENTER_LEFT);
+            panel.add(temppanel, AfMargin.CENTER_RIGHT);
+
+            //editbtn行为
+            editbtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String nstr = JOptionPane.showInputDialog(null, "输入修改内容",
+                            "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
+                    if(nstr != null && nstr != "") setText(nstr);
+                    try {
+                        //修改strlist的内容
+                        todoStringList.set(orderInContainer,nstr);
+                    }catch (Exception ex){
+                        System.out.println("获取的index和string列表保存的不一致！列表越界！");
+                    }
+                }
+            });
+
+            //finish按钮行为
+            finishbtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setVisible(false);
+                    todoStringList.remove(orderInContainer);
+                    paintTodoListPanel();
+                }
+            });
+        }
+
+        TodoItemPanel(String memo, int index){
+            this();
+            setText(memo);
+            setOrderInContainer(index);
+        }
+
+        TodoItemPanel(TTodoList list, int index){
+            this();
+            loadFromContainer(list,index);
+        }
+
+
+        public void setText(String s){
+            label.setText(s);
+            panel.repaint();
+        }
+
+        public void setOrderInContainer(int i){orderInContainer = i;}
+
+        public void loadFromContainer(TTodoList list, int index){
+            try{
+                setText(list.getItem(index).getMemo());
+                setOrderInContainer(index);
+            }
+            catch (Exception e){
+                System.out.println("设置待办事项面板内容失败！"+e.getMessage());
+            }
+        }
+
+        public boolean isVisible(){return panel.isVisible();}
+        public void setVisible(boolean b){panel.setVisible(b);}
+
+        public void boxTicked(){
+
+        }
+
+        public JPanel getPanel(){return panel;}
     }
 
     public static void main(String[] args) {
