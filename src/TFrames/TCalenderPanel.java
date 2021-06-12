@@ -1,9 +1,6 @@
 package TFrames;
 
-import TCalenders.TDateContainer;
-import TCalenders.TDateMark;
-import TCalenders.TDateModified;
-import TCalenders.TTodoList;
+import TCalenders.*;
 import TFrames.AFLayouts.AfAnyWhere;
 import TFrames.AFLayouts.AfMargin;
 import TManagers.TManager;
@@ -29,6 +26,8 @@ public class TCalenderPanel extends TPanel{
     JPanel todoListPanel;
     TTime selectedDate;
     JPanel listpanel;
+
+    TDateContainer selectedcontainer;
 
     static final int MONTH_LENGTH[]
             = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -402,14 +401,15 @@ public class TCalenderPanel extends TPanel{
                 //boolean b = todoItemPanelList.get(3).getPanel().isVisible();
                 //todoItemPanelList.get(3).getPanel().setVisible(!b);
                 if(todoStringList.size()>=MaxTodoItemPanelCount){
-                    JOptionPane.showMessageDialog(null,"列表满了","待办事项最多可以添加"+MaxTodoItemPanelCount+"个！",
+                    JOptionPane.showMessageDialog(null,"列表满","待办事项最多可以添加"+MaxTodoItemPanelCount+"个！",
                             JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
                 String nstr = JOptionPane.showInputDialog(null, "添加待办事项",
                         "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
                 todoStringList.add(nstr);
-                paintTodoListPanel();
+                addTodoItem2Container(selectedDate,nstr);
+                paintAll(selectedDate);
                 panel.repaint();
 
             }
@@ -422,11 +422,13 @@ public class TCalenderPanel extends TPanel{
 
     }
 
-    private void paintTodoListPanel(){
+    private void paintTodoListPanel(TTime time){
         try{
-            //clearListPanel();
+            //将container中的内容拷贝进selectedstrlist
+            loadFromContainer(selectedDate);
             int size = todoStringList.size();
-            if(size>0){
+            //将selectedstrlist中的内容放进panel中
+            //if(size>0){
                 for(int i=0;i<size||i<MaxTodoItemPanelCount;i++){
                     if(i >= size){
                         todoItemPanelList.get(i).setVisible(false);
@@ -434,12 +436,12 @@ public class TCalenderPanel extends TPanel{
                         todoItemPanelList.get(i).setText(todoStringList.get(i));
                         todoItemPanelList.get(i).setOrderInContainer(i);
                         todoItemPanelList.get(i).setVisible(true);
-                        System.out.println("已绘制新的待办事项");
+                        //System.out.println("已绘制新的待办事项");
                     }
                 }
-            }
-            else{
-            }
+            //}
+           // else{
+           // }
 
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -459,15 +461,58 @@ public class TCalenderPanel extends TPanel{
         }
     }
 
-    private void loadFromContainer(TTodoList list,TTime t){
-        todoItemPanelList.clear();
+    private void loadFromContainer(TTime t){
+        todoStringList.clear();
+        selectedcontainer = TManager.getInstance().getContainerofDate(t);
+        if(selectedcontainer==null) return;
+
+        int size = selectedcontainer.getTodoListSize();
+        if(size > 0) {
+            for(int i=0;i<size;i++){
+                todoStringList.add(selectedcontainer.getTodoItem(i).toString());
+            }
+        }
+    }
+
+    private void addTodoItem2Container(TTime t,String str){
+        selectedDate = t;
+        selectedcontainer = TManager.getInstance().getContainerofDate(t);
+
+        //创建该日期的container
+        if(selectedcontainer==null){
+            selectedcontainer = TManager.getInstance().getCalender().createDateContainer(t);
+        }
+
+        selectedcontainer.addTodoItem(str);
 
     }
 
+    private void editTodoItemofContainer(TTime t,int index, String str){
+        selectedcontainer = TManager.getInstance().getContainerofDate(t);
+        try{
+            selectedcontainer.editTodoItem(index,str);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void deleteTodoItemofContainer(TTime t, int index){
+        selectedcontainer = TManager.getInstance().getContainerofDate(t);
+        try {
+            selectedcontainer.deleteTodoItem(index);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void paintAll(TTime selected){
+        selectedDate = selected;
+        selectedcontainer = TManager.getInstance().getContainerofDate(selected);
+
         paintCalenderPanel(selected);
         paintDateDescriptionPanel(selected);
         paintDateMarks(selected);
+        paintTodoListPanel(selected);
     }
 
     class TDateAction implements ActionListener{
@@ -518,6 +563,7 @@ public class TCalenderPanel extends TPanel{
                     try {
                         //修改strlist的内容
                         todoStringList.set(orderInContainer,nstr);
+                        editTodoItemofContainer(selectedDate,orderInContainer,nstr);
                     }catch (Exception ex){
                         System.out.println("获取的index和string列表保存的不一致！列表越界！");
                     }
@@ -528,9 +574,7 @@ public class TCalenderPanel extends TPanel{
             finishbtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setVisible(false);
-                    todoStringList.remove(orderInContainer);
-                    paintTodoListPanel();
+                    boxTicked();
                 }
             });
         }
@@ -568,7 +612,10 @@ public class TCalenderPanel extends TPanel{
         public void setVisible(boolean b){panel.setVisible(b);}
 
         public void boxTicked(){
-
+            setVisible(false);
+            todoStringList.remove(orderInContainer);
+            deleteTodoItemofContainer(selectedDate,orderInContainer);
+            paintTodoListPanel(selectedDate);
         }
 
         public JPanel getPanel(){return panel;}

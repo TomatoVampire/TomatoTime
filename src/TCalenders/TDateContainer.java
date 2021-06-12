@@ -92,18 +92,22 @@ public class TDateContainer implements Serializable {
     //todo 待办事项的添加、修改、删除
     public void addTodoItem(TTodoItem item){
         todoList.insertItem(item);
+        System.out.println("在container中添加了新的待办事项");
     }
 
     public void addTodoItem(String item){
         todoList.insertItem(item);
+        System.out.println("在container中添加了新的待办事项");
     }
 
     public void editTodoItem(int index, String item){
         todoList.setItem(index,item);
+        System.out.println("在container中修改了待办事项");
     }
 
     public int deleteTodoItem(int index){
         if(index >= todoList.getSize() || index < 0) throw new IllegalArgumentException("访问自定义日期容器的下标越界！");
+        System.out.println("在container中删除了新的待办事项");
         todoList.deleteItem(index);
         return 1;
     }

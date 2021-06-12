@@ -3,6 +3,8 @@ package TFrames;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.net.URL;
+
 
 //todo 工具类
 //图形界面的通用属性
@@ -45,6 +47,19 @@ public class TFrameTools {
         JButton button = createTButton(name);
         button.setFont(font);
         return button;
+    }
+
+    public static JButton createTButton(String url,String name){
+        //注意需要使用相对路径！！
+        try {
+            Icon icon = new ImageIcon(url);
+            JButton button = createTButton(name);
+            button.setIcon(icon);
+            return button;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public static JLabel createLabel(String name){
