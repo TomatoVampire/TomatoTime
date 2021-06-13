@@ -14,13 +14,13 @@ import java.util.TimeZone;
 public class MainTestCMD {
     //private MainTest maim = new MainTest();
     public static void main(String[] args) {
-        //countTest();
+        countTest();
         //todolistTest();
         //calenderTest();
         //timeTest();
         //managerTest();
         //loadManagerTest();
-        GCalenTest();
+        //GCalenTest();
     }
 
     private static void GCalenTest(){
@@ -84,13 +84,7 @@ public class MainTestCMD {
         TCountdown countdown = new TCountdown(3);
         //countdown.startCount();
         TTomatoClock tomatoClock = new TTomatoClock();
-        while(true){
-            Scanner s = new Scanner(System.in);
-            if(s.next() != null)
-            tomatoClock.performTomato();
-            //{countdown.setTimer(3); countdown.startCount();}
-            else break;
-        }
+        countdown.startCount();
     }
 
     private void cmd(){

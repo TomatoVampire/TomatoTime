@@ -23,7 +23,7 @@ public class TFrameTools {
     public static final Font CLOCKFONT = new Font("Consolas",1,40);
     public static final Font BUTTONFONT = new Font("Consolas",1,20);
     public static final Font TEXTFONT = new Font("微软雅黑",1,20);
-    public static final Font SMALLTEXTFONT = new Font("微软雅黑",0,14);
+    public static final Font SMALLTEXTFONT = new Font("微软雅黑",0,15);
     public static final Border SelectedDateBorder = BorderFactory.createLineBorder(SELECTEDDATE,5);
     public static final Border EmptyDateBorder = BorderFactory.createLineBorder(new Color(0,0,0,0),5);
 
@@ -78,5 +78,11 @@ public class TFrameTools {
         JPanel panel = new JPanel(manager);
         panel.setBackground(TFrameTools.TRANSPARANT);
         return panel;
+    }
+
+    public static JTextField createTextField(String text){
+        JTextField textField = new JTextField(text);
+        textField.setFont(TFrameTools.TEXTFONT);
+        return textField;
     }
 }

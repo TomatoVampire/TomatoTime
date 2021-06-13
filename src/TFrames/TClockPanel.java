@@ -142,12 +142,12 @@ public class TClockPanel extends TPanel {
 
 class TEditTimeBar extends JPanel{
 
-     JTextField year = new JTextField(Integer.toString(TManager.getInstance().getNowTime().getYear()));
-     JTextField month = new JTextField(Integer.toString(TManager.getInstance().getNowTime().getMonth()));
-     JTextField day = new JTextField(Integer.toString(TManager.getInstance().getNowTime().getDay()));
-     JTextField hour = new JTextField(Integer.toString(TManager.getInstance().getNowTime().getHour()));
-     JTextField minute = new JTextField(Integer.toString(TManager.getInstance().getNowTime().getMinute()));
-     JTextField second = new JTextField(Integer.toString(TManager.getInstance().getNowTime().getSecond()));
+     JTextField year    = TFrameTools.createTextField(Integer.toString(TManager.getInstance().getNowTime().getYear()));
+     JTextField month   = TFrameTools.createTextField(Integer.toString(TManager.getInstance().getNowTime().getMonth()));
+     JTextField day     = TFrameTools.createTextField(Integer.toString(TManager.getInstance().getNowTime().getDay()));
+     JTextField hour    = TFrameTools.createTextField(Integer.toString(TManager.getInstance().getNowTime().getHour()));
+     JTextField minute  = TFrameTools.createTextField(Integer.toString(TManager.getInstance().getNowTime().getMinute()));
+     JTextField second  = TFrameTools.createTextField(Integer.toString(TManager.getInstance().getNowTime().getSecond()));
 
       public TEditTimeBar(){
           super();
@@ -156,12 +156,12 @@ class TEditTimeBar extends JPanel{
           JPanel inpanel = new JPanel(new GridLayout(1,12,3,10));
           JLabel label = new JLabel("请输入新的时间：");
 
-          JLabel nian = new JLabel("年");
-          JLabel yue = new JLabel("月");
-          JLabel ri = new JLabel("日");
-          JLabel shi = new JLabel("时");
-          JLabel fen = new JLabel("分");
-          JLabel miao = new JLabel("秒");
+          JLabel nian   = TFrameTools.createLabel("年");
+          JLabel yue    = TFrameTools.createLabel("月");
+          JLabel ri     = TFrameTools.createLabel("日");
+          JLabel shi    = TFrameTools.createLabel("时");
+          JLabel fen    = TFrameTools.createLabel("分");
+          JLabel miao   = TFrameTools.createLabel("秒");
 
           inpanel.add(year);
           inpanel.add(nian);

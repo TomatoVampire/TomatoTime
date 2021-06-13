@@ -50,6 +50,8 @@ public class TDateMark implements DateMarker, Serializable {
         return new TDateMark(type,m);
     }
 
+    public TDateMark.DateType getDateType(){return type;}
+
     @Override
     public Color getColor() {
         return color;

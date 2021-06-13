@@ -162,6 +162,11 @@ public class TCalenderPanel extends TPanel{
                         TTime ntime = new TTime(selected.getYear(), selected.getMonth(), temp);
                         dates[i][j].setReftime(ntime);
                         if(temp == selected.getDay()) {selectedButton = dates[i][j];selectedButton.selectButton();}
+                        if(TManager.getInstance().getContainerofDate(ntime)==null){
+                            dates[i][j].setDateType(getDefaultType(ntime));
+                        }else{
+                            dates[i][j].setDateType(TManager.getInstance().getContainerofDate(ntime).getDatemark().getDateType());
+                        }
                         temp++;
                     }
                 }//j
@@ -398,18 +403,24 @@ public class TCalenderPanel extends TPanel{
         addbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //添加待办事项
                 //boolean b = todoItemPanelList.get(3).getPanel().isVisible();
                 //todoItemPanelList.get(3).getPanel().setVisible(!b);
                 if(todoStringList.size()>=MaxTodoItemPanelCount){
-                    JOptionPane.showMessageDialog(null,"列表满","待办事项最多可以添加"+MaxTodoItemPanelCount+"个！",
+                    JOptionPane.showMessageDialog(null,"待办事项最多可以添加\"+MaxTodoItemPanelCount+\"个！","待办事项已满",
                             JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
                 String nstr = JOptionPane.showInputDialog(null, "添加待办事项",
                         "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
-                todoStringList.add(nstr);
-                addTodoItem2Container(selectedDate,nstr);
-                paintAll(selectedDate);
+                if(nstr.equals("")){
+                    JOptionPane.showMessageDialog(null,"输入待办事项内容不可为空！","待办事项不可为空",JOptionPane.PLAIN_MESSAGE);
+                }
+                else {
+                    todoStringList.add(nstr);
+                    addTodoItem2Container(selectedDate, nstr);
+                    paintAll(selectedDate);
+                }
                 panel.repaint();
 
             }
@@ -515,6 +526,99 @@ public class TCalenderPanel extends TPanel{
         paintTodoListPanel(selected);
     }
 
+    //别的页面调用：重新加载日历页面
+    public void reloadFromManager(){
+        selectedDate = TManager.getInstance().getNowTime();
+        paintAll(selectedDate);
+    }
+
+    class TDateButton extends JButton{
+
+        TTime reftime;
+        JLabel memolabel;
+        int tomatoCount;
+
+        public TDateButton(){
+            super();
+            setLayout(new AfAnyWhere());
+            setFont(TFrameTools.TEXTFONT);
+            setBackground(TFrameTools.copyColor(TFrameTools.BUTTONCOLOR));
+            //button.setContentAreaFilled(false);
+            setFocusPainted(false);
+            //addActionListener(new DateActionListener());
+            memolabel = new JLabel();
+            memolabel.setFont(new Font("微软雅黑",0,14));
+            this.add(memolabel,AfMargin.TOP_RIGHT);
+            setBorder(TFrameTools.EmptyDateBorder);
+        }
+
+        public TDateButton(String name){
+            this();
+            setName(name);
+        }
+
+        public void setReftime(TTime time){
+            reftime = time;
+        }
+
+        public TTime getRefTime(){
+            return reftime;
+        }
+
+        public void setWordColor(Color color){
+            setForeground(color);
+        }
+
+        public void addMemo(String memo,Color color){
+            memolabel.setText(memo);
+            memolabel.setBackground(new Color(0,0,0,0));
+            memolabel.setForeground(color);
+            add(memolabel, AfMargin.TOP_RIGHT);
+        }
+
+        public void reset(){
+            setEnabled(false);
+            setText(" ");
+            memolabel.setText(" ");
+            losefocus();
+        }
+
+        public void activeButton(String content){
+            setEnabled(true);
+            setText(content);
+            memolabel.setText(" ");
+        }
+        public void activeButton(int content){
+            activeButton(Integer.toString(content));
+        }
+        public void selectButton(){
+            setBorder(TFrameTools.SelectedDateBorder);
+        }
+        public void losefocus(){
+            setBorder(TFrameTools.EmptyDateBorder);
+        }
+
+        public void setDateType(TDateMark.DateType type){
+            if(type==null){
+                memolabel.setText("");
+                return;
+            }
+            switch (type){
+                case RESTDAY:memolabel.setText("假");memolabel.setForeground(TFrameTools.HOLIDAYCOLOR);break;
+                case WORKDAY:memolabel.setText("");break;
+                case ULTRAWORK:memolabel.setText("班");memolabel.setForeground(TFrameTools.ULTRAWORKDAYCOLOR);break;
+                default:break;
+            }
+        }
+
+
+        class DateActionListener implements ActionListener{
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //reftime;
+            }
+        }
+    }
     class TDateAction implements ActionListener{
         TDateButton button;
         public TDateAction(TDateButton b){ button = b;}
@@ -529,6 +633,7 @@ public class TCalenderPanel extends TPanel{
             paintAll(selectedDate);
         }
     }
+
     class TodoItemPanel {
         int orderInContainer;
         JLabel label;
@@ -553,19 +658,24 @@ public class TCalenderPanel extends TPanel{
             panel.add(label, AfMargin.CENTER_LEFT);
             panel.add(temppanel, AfMargin.CENTER_RIGHT);
 
-            //editbtn行为
+            //editbtn行为，编辑待办事项
             editbtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String nstr = JOptionPane.showInputDialog(null, "输入修改内容",
                             "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
-                    if(nstr != null && nstr != "") setText(nstr);
-                    try {
-                        //修改strlist的内容
-                        todoStringList.set(orderInContainer,nstr);
-                        editTodoItemofContainer(selectedDate,orderInContainer,nstr);
-                    }catch (Exception ex){
-                        System.out.println("获取的index和string列表保存的不一致！列表越界！");
+                    if(nstr != null && nstr != "") {
+                        setText(nstr);
+                        try {
+                            //修改strlist的内容
+                            todoStringList.set(orderInContainer, nstr);
+                            editTodoItemofContainer(selectedDate, orderInContainer, nstr);
+                        } catch (Exception ex) {
+                            System.out.println("获取的index和string列表保存的不一致！列表越界！");
+                        }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"输入待办事项不可为空！","待办事项不可为空",JOptionPane.PLAIN_MESSAGE);
                     }
                 }
             });
@@ -634,79 +744,3 @@ public class TCalenderPanel extends TPanel{
     }
 }
 
-class TDateButton extends JButton{
-
-    TTime reftime;
-    JLabel memolabel;
-    int tomatoCount;
-
-    public TDateButton(){
-        super();
-        setLayout(new AfAnyWhere());
-        setFont(TFrameTools.TEXTFONT);
-        setBackground(TFrameTools.copyColor(TFrameTools.BUTTONCOLOR));
-        //button.setContentAreaFilled(false);
-        setFocusPainted(false);
-        //addActionListener(new DateActionListener());
-        memolabel = new JLabel();
-        memolabel.setFont(new Font("微软雅黑",0,5));
-        setBorder(TFrameTools.EmptyDateBorder);
-    }
-
-    public TDateButton(String name){
-        this();
-        setName(name);
-    }
-
-    public void setReftime(TTime time){
-        reftime = time;
-    }
-
-    public TTime getRefTime(){
-        return reftime;
-    }
-
-    public void setWordColor(Color color){
-        setForeground(color);
-    }
-
-    public void addMemo(String memo,Color color){
-        memolabel.setText(memo);
-        memolabel.setBackground(new Color(0,0,0,0));
-        memolabel.setForeground(color);
-        add(memolabel, AfMargin.TOP_RIGHT);
-    }
-
-    public void reset(){
-        setEnabled(false);
-        setText(" ");
-        memolabel.setText(" ");
-        losefocus();
-    }
-
-    public void activeButton(String content){
-        setEnabled(true);
-        setText(content);
-        memolabel.setText(" ");
-    }
-    public void activeButton(int content){
-        activeButton(Integer.toString(content));
-    }
-    public void selectButton(){
-        setBorder(TFrameTools.SelectedDateBorder);
-    }
-    public void losefocus(){
-        setBorder(TFrameTools.EmptyDateBorder);
-    }
-
-
-    class DateActionListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //reftime;
-        }
-    }
-
-
-
-}

@@ -27,6 +27,10 @@ public class TMainFrame {
     JPanel calenderPanel;
     JPanel countdownPanel;
     JPanel aboutPanel;
+    TCalenderPanel tCalenderPanel;
+    TClockPanel tClockPanel;
+    TCountdownPanel tCountdownPanel;
+    TAboutPanel tAboutPanel;
 
     //todo 单例
     private static TMainFrame instance;
@@ -100,6 +104,8 @@ public class TMainFrame {
                 System.out.println("点击了切换"+whereto+"界面按钮");
                 CardLayout layout = (CardLayout) cardPanel.getLayout();
                 layout.show(cardPanel, whereto);
+                tCalenderPanel.reloadFromManager();
+
             }catch (Exception ex){
                 System.out.println("无法切换到" + whereto + "场景！");
             }
@@ -117,15 +123,20 @@ public class TMainFrame {
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                manager.saveFile();
+                //暂时不保存
+                //manager.saveFile();
                 System.exit(0);
             }
         });
         root = mainFrame.getContentPane();
         //各个子页面
-        clockPanel = new TClockPanel().getPanel();
-        calenderPanel = new TCalenderPanel().getPanel();
-        aboutPanel = new TAboutPanel().getPanel();
+        tClockPanel = new TClockPanel();
+        tCalenderPanel = new TCalenderPanel();
+        tAboutPanel = new TAboutPanel();
+
+        clockPanel = tClockPanel.getPanel();
+        calenderPanel = tCalenderPanel.getPanel();
+        aboutPanel = tAboutPanel.getPanel();
 
         //卡片布局
         initCardPanel();
