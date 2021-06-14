@@ -14,6 +14,7 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow,Runnable {
     protected ActionListener task;
     protected boolean isFlowing;
     protected Thread thread;
+    protected boolean threadStarted;
 
     protected class MyTimeAction implements ActionListener,Serializable{
         @Override
@@ -27,15 +28,18 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow,Runnable {
         task = new MyTimeAction();
         timer = new Timer(1000,task);
         thread = new Thread(this, "Time flow");
+        threadStarted = false;
        // timer.s
     }
 
     //todo 新建个无限循环start()的线程，计时结束后kill该进程（或许在frame中会修好？）
     public void startMethod() {
         //从现在开始，进行this的操作,单位为秒
+        if(thread == null) thread = new Thread (this, "Time flow");
+        if(!threadStarted) {thread.start();threadStarted = true;}
         if(!isFlowing){
-            timer.start();
             isFlowing = true;
+            timer.start();
         }
     }
 
@@ -69,7 +73,6 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow,Runnable {
     }
 
     public void start(){
-        if(thread == null) thread = new Thread (this, "Time flow");
-        thread.start ();
+        startMethod();
     }
 }

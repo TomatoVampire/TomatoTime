@@ -26,6 +26,7 @@ public class TCalenderPanel extends TPanel{
     JPanel todoListPanel;
     TTime selectedDate;
     JPanel listpanel;
+    JLabel tomatoCount;
 
     TDateContainer selectedcontainer;
 
@@ -43,7 +44,7 @@ public class TCalenderPanel extends TPanel{
         initTodoListPanel();
 
         dateDescriptionPanel.setBackground(new Color(239, 145, 145));
-        dateDescriptionPanel.setPreferredSize(new Dimension(620,340));
+        dateDescriptionPanel.setPreferredSize(new Dimension(620,250));
 
         todoListPanel.setPreferredSize(new Dimension(300,900));
 
@@ -189,7 +190,7 @@ public class TCalenderPanel extends TPanel{
 
     private void initDateDescriptionPanel(){
         dateDescriptionPanel = TFrameTools.createPanel(new GridLayout(1,2,15,0));
-        leftPanel = TFrameTools.createPanel(new GridLayout(2,1,0,10));
+        leftPanel = TFrameTools.createPanel(new GridLayout(4,1,0,10));
         rightPanel = TFrameTools.createPanel(new GridLayout(2,1,0,10));
         leftPanel.setBorder(TFrameTools.EmptyDateBorder);
         rightPanel.setBorder(TFrameTools.EmptyDateBorder);
@@ -207,13 +208,21 @@ public class TCalenderPanel extends TPanel{
         weekdaydes.setVerticalAlignment(SwingConstants.TOP);
         JPanel temppanel = TFrameTools.createPanel(new AfAnyWhere());
         JButton todaybtn = TFrameTools.createTButton("回到今天");
+        //当天番茄面板
+        JPanel tpanel = TFrameTools.createPanel(new FlowLayout(FlowLayout.LEFT));
+        tpanel.setPreferredSize(new Dimension(200,50));
+        tomatoCount = TFrameTools.createLabel("0");//当天番茄数
+        tpanel.add(TFrameTools.createLabel("今日番茄："));
+        tpanel.add(tomatoCount);
         todaybtn.addActionListener(e->paintAll(TManager.getInstance().getNowTime()));
-        temppanel.add(weekdaydes,AfMargin.TOP_LEFT);
-        temppanel.add(todaybtn,AfMargin.BOTTOM_LEFT);
+        //星期几，返回今天按钮面板
+        //temppanel.add(weekdaydes,AfMargin.TOP_LEFT);
+        //temppanel.add(todaybtn,AfMargin.BOTTOM_LEFT);
 
         leftPanel.add(yeardes);
-        //leftPanel.add(weekdaydes);
-        leftPanel.add(temppanel);
+        leftPanel.add(weekdaydes);
+        leftPanel.add(tpanel);
+        leftPanel.add(todaybtn);
 
         //右面板
         JPanel up = TFrameTools.createPanel(new AfAnyWhere());
@@ -283,6 +292,8 @@ public class TCalenderPanel extends TPanel{
             String s2 = "星期" + weekdaychinese[t];
             yeardes.setText(s1);
             weekdaydes.setText(s2);
+
+            //读取当天的番茄
 
             panel.repaint();
         }
@@ -737,7 +748,6 @@ public class TCalenderPanel extends TPanel{
         frame.setLayout(new BorderLayout());
         frame.setBounds(500,0,960,960);
         frame.add(panel.getPanel(),BorderLayout.CENTER);
-
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

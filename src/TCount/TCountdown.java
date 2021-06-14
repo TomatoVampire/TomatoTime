@@ -9,6 +9,7 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
     protected long initialTimer;
     protected long nowtimer;
     protected boolean isCounting;
+    protected boolean threadcreated;
 
     public TCountdown() {
         super();
@@ -20,10 +21,13 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
     //使用小时-分钟-秒创建倒计时
     public TCountdown(int hour,int minute,int second){
         setTimer(hour,minute,second);
+        threadcreated = false;
     }
 
     public TCountdown(long initial){
         setTimer(initial);
+        //nowtimer--;
+        threadcreated=false;
     }
 
     //可对timer重新设置以重新开始倒计时
@@ -65,8 +69,7 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
 
     //todo 开始计时
     public void startCount(){
-        //startMethod();
-        start();
+        startMethod();
         isCounting = true;
         System.out.println("开始计时");
     }
@@ -102,7 +105,7 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
         if(nowtimer == 0){
             endCount();
         }
-        nowtimer--;
+        else nowtimer--;
     }
 
     private String Calendar2Str(GregorianCalendar g){
@@ -121,6 +124,14 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
     public int getNowTimerHour(){return convertCountdown2Time(nowtimer).get(GregorianCalendar.HOUR_OF_DAY);}
     public int getNowTimerMinute(){return convertCountdown2Time(nowtimer).get(GregorianCalendar.MINUTE);}
     public int getNowTimerSecond(){return convertCountdown2Time(nowtimer).get(GregorianCalendar.SECOND);}
+
+    //获取格式化后的当前剩余时间显示
+    public String getNowtime(){
+        String s1 = String.format("%02d",convertCountdown2Time(nowtimer).get(GregorianCalendar.HOUR_OF_DAY));
+        String s2 = String.format("%02d",convertCountdown2Time(nowtimer).get(GregorianCalendar.MINUTE));
+        String s3 = String.format("%02d",convertCountdown2Time(nowtimer).get(GregorianCalendar.SECOND));
+        return s1+":"+s2+":"+s3;
+    }
 
     public int getInitialTimerHour()  {return convertCountdown2Time(initialTimer).get(GregorianCalendar.HOUR_OF_DAY);}
     public int getInitialTimerMinute(){return convertCountdown2Time(initialTimer).get(GregorianCalendar.MINUTE);}

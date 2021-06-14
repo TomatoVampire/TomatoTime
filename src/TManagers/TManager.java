@@ -79,7 +79,7 @@ public class TManager implements Serializable {
     //重置所有的内容，删除所有记录的待办事项等
     public void reset(){
         nowtime = new TClock();
-        countdown = new TCountdown();
+        countdown = new TCountdown(30);
         tomatoClock = new TTomatoClock();
         calender = new TCalender();
         isCountingDown = false;

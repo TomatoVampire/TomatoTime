@@ -3,6 +3,7 @@ package TCalenders;
 import TTimepkg.TTime;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,13 +27,31 @@ public class TCalender implements Serializable {
     }
 
     public TDateContainer createDateContainer(TTime t){
-        TDateContainer container = new TDateContainer();
-        if(registerDateEvents(t,container)==0){
-            System.out.println("创建容器失败！");
+        try {
+            TDateContainer container = new TDateContainer();
+            container.setDatemark(getDefaultType(t));
+            if (registerDateEvents(t, container) == 0) {
+                throw new NoSuchFieldException("创建容器失败！");
+            } else {
+                return container;
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
             return null;
         }
-        else {
-            return container;
+    }
+
+    //默认的日期类型：周一到五为工作日，周六日为休息日
+    private TDateMark.DateType getDefaultType(TTime selected){
+        try {
+            int i= selected.get(GregorianCalendar.DAY_OF_WEEK);
+            TDateMark.DateType type = i==1||i==7? TDateMark.DateType.RESTDAY: TDateMark.DateType.WORKDAY;
+            return type;
+        }
+        catch (Exception e){
+            //
+            return null;
         }
     }
 

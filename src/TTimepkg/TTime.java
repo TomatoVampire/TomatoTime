@@ -25,6 +25,7 @@ public class TTime implements Serializable {
 
     //todo 联网获取时间，参数：时区 会更新时钟和日期
     public void synchronizeTime(TimeZone timezone){
+        //todo 使用？库
         time.setTimeZone(timezone);
     }
 
