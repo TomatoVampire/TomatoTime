@@ -50,7 +50,7 @@ public class TMainFrame {
         //加面板进卡片
         cardPanel.add(clockPanel, "clockPanel");
         cardPanel.add(calenderPanel, "calenderPanel");
-        //cardPanel.add(countdownPanel, "countdownPanel");
+        cardPanel.add(countdownPanel, "countdownPanel");
         cardPanel.add(aboutPanel, "aboutPanel");
     }
 
@@ -84,7 +84,7 @@ public class TMainFrame {
 
         clockbtn.addActionListener(new SwitchCardAction("clockPanel"));
         calenderbtn.addActionListener(new SwitchCardAction("calenderPanel"));
-        //countdownbtn =;
+        countdownbtn.addActionListener(new SwitchCardAction("countdownPanel"));
         aboutbtn.addActionListener(new SwitchCardAction("aboutPanel"));
 
 
@@ -124,7 +124,7 @@ public class TMainFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 //暂时不保存
-                //manager.saveFile();
+                manager.saveFile();
                 System.exit(0);
             }
         });
@@ -132,11 +132,13 @@ public class TMainFrame {
         //各个子页面
         tClockPanel = new TClockPanel();
         tCalenderPanel = new TCalenderPanel();
+        tCountdownPanel = new TCountdownPanel();
         tAboutPanel = new TAboutPanel();
 
         clockPanel = tClockPanel.getPanel();
         calenderPanel = tCalenderPanel.getPanel();
         aboutPanel = tAboutPanel.getPanel();
+        countdownPanel = tCountdownPanel.getPanel();
 
         //卡片布局
         initCardPanel();

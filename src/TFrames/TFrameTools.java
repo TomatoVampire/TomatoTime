@@ -83,6 +83,22 @@ public class TFrameTools {
     public static JTextField createTextField(String text){
         JTextField textField = new JTextField(text);
         textField.setFont(TFrameTools.TEXTFONT);
+        textField.setBackground(TFrameTools.TRANSPARANT);
         return textField;
     }
+
+    public static JTextArea createTextArea(String text){
+        JTextArea textField = new JTextArea(text);
+        textField.setFont(TFrameTools.TEXTFONT);
+        textField.setBackground(TFrameTools.TRANSPARANT);
+        return textField;
+    }
+
+    /*
+    public static JLabel createIconLabel(String path){
+        JLabel label = TFrameTools.createLabel("");
+        //label.setIcon();
+
+        return label;
+    }*/
 }

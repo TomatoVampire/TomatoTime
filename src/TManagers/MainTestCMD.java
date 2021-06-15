@@ -6,6 +6,9 @@ import TCount.TTomatoClock;
 import TTimepkg.TClock;
 import TTimepkg.TTime;
 
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -14,13 +17,31 @@ import java.util.TimeZone;
 public class MainTestCMD {
     //private MainTest maim = new MainTest();
     public static void main(String[] args) {
-        countTest();
+        //countTest();
         //todolistTest();
         //calenderTest();
         //timeTest();
         //managerTest();
         //loadManagerTest();
         //GCalenTest();
+        synctest();
+    }
+
+    private static void synctest(){
+        try {
+            URL url = new URL("http://www.ntsc.ac.cn");//获取资源对象
+            URLConnection uc = url.openConnection();//生成连接对象
+            uc.connect();//建立连接
+            Long ld = uc.getDate();//读取网站时间
+            System.out.println(ld);//毫秒数
+            TClock clock = new TClock();
+            clock.syncronizeWebTime("http://www.ntsc.ac.cn");
+            System.out.println(new Date(ld));
+            System.out.println(clock);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void GCalenTest(){

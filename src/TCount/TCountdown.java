@@ -110,7 +110,7 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
 
     private String Calendar2Str(GregorianCalendar g){
         String t = "";
-        t += g.get(GregorianCalendar.HOUR_OF_DAY) + " : ";
+        t += String.format("%02d",g.get(GregorianCalendar.HOUR_OF_DAY)) + " : ";
         t += g.get(GregorianCalendar.MINUTE) + " : ";
         t += g.get(GregorianCalendar.SECOND);
         return  t;
@@ -126,7 +126,7 @@ public class TCountdown extends TTimeFlowSkeleton implements Serializable {
     public int getNowTimerSecond(){return convertCountdown2Time(nowtimer).get(GregorianCalendar.SECOND);}
 
     //获取格式化后的当前剩余时间显示
-    public String getNowtime(){
+    public String getNowtimer(){
         String s1 = String.format("%02d",convertCountdown2Time(nowtimer).get(GregorianCalendar.HOUR_OF_DAY));
         String s2 = String.format("%02d",convertCountdown2Time(nowtimer).get(GregorianCalendar.MINUTE));
         String s3 = String.format("%02d",convertCountdown2Time(nowtimer).get(GregorianCalendar.SECOND));

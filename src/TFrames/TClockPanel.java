@@ -20,6 +20,7 @@ public class TClockPanel extends TPanel {
     JLabel colon2 = new JLabel(":");
     TEditTimeBar editBar;
     Timer timer ;//= new Timer(1000,e->second.setText(TManager.getInstance().getClock()));
+    String webzone = "http://www.ntsc.ac.cn";//当前时区的网络时间网址，初始化为中国时间
 
     private class TimeAction implements ActionListener{
         public TimeAction(){}
@@ -95,9 +96,32 @@ public class TClockPanel extends TPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (comboBox.getSelectedIndex()){
-                    case 0:TManager.getInstance().getNowTime().synchronizeTime(TimeZone.getTimeZone("Asia/Chongqing"));break;
-                    case 1:TManager.getInstance().getNowTime().synchronizeTime(TimeZone.getTimeZone("America/Los_Angeles"));break;
+                    case 0:
+                        TManager.getInstance().getNowTime().synchronizeTime(TimeZone.getTimeZone("Asia/Chongqing"));
+                        webzone="http://www.ntsc.ac.cn";//中国网络时间网址
+                    break;
+                    case 1:
+                        TManager.getInstance().getNowTime().synchronizeTime(TimeZone.getTimeZone("America/Los_Angeles"));
+                        webzone="https://www.nist.gov/";//美国时间网址？？
+                        break;
                     default:break;
+                }
+            }
+        });
+
+        //同步时间按钮
+        JButton syncbtn = TFrameTools.createTButton("同步网络时间");
+        syncbtn.setToolTipText("将会根据您设备的当前地区获取网络时间");
+        syncbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    TManager.getInstance().getClock().syncronizeWebTime(webzone);
+                    JOptionPane.showMessageDialog(null,"同步网络时间成功！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
+                    panel.repaint();
+                }
+                catch (Exception ex){
+                    JOptionPane.showMessageDialog(null,"获取网络时间失败！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
                 }
             }
         });
@@ -106,6 +130,7 @@ public class TClockPanel extends TPanel {
         toolpanel.add(setTime);
         toolpanel.add(timez);
         toolpanel.add(comboBox);
+        toolpanel.add(syncbtn);
         panel.add(toolpanel,AfMargin.TOP_CENTER);
         panel.add(editBar,AfMargin.BOTTOM_CENTER);
     }

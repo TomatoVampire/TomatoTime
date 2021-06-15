@@ -135,9 +135,11 @@ public class TCountdownPanel extends TPanel{
             add(btnpanel,AfMargin.BOTTOM_CENTER);
         }
         public void loadNowTimerFromManager(){
+            /*
             String remain = TManager.getInstance().getCountdown().getNowTimerHour()+":"
                     +TManager.getInstance().getCountdown().getNowTimerMinute()+":"
-                    +TManager.getInstance().getCountdown().getNowTimerSecond();
+                    +TManager.getInstance().getCountdown().getNowTimerSecond();*/
+            String remain = TManager.getInstance().getCountdown().getNowtimer();
 
             timerdisp.setText(remain);
             //System.out.println("load timer from manager");
@@ -357,11 +359,20 @@ public class TCountdownPanel extends TPanel{
 
         @Override
         public void loadNowTimerFromManager(){
-            String remain = TManager.getInstance().getTomatoClock().getNowTimerHour()+":"
+            /*String remain = TManager.getInstance().getTomatoClock().getNowTimerHour()+":"
                     +TManager.getInstance().getTomatoClock().getNowTimerMinute()+":"
-                    +TManager.getInstance().getTomatoClock().getNowTimerSecond();
-
+                    +TManager.getInstance().getTomatoClock().getNowTimerSecond();*/
+            String remain = TManager.getInstance().getCountdown().getNowtimer();
             timerdisp.setText(remain);
+
+            //读取、同步当日tomato
+            //从日历读取今日番茄，未读取到则使用本地的内存
+            if(TManager.getInstance().hasContainerofDate(TManager.getInstance().getNowTime())){
+                tomatoCount.setText(TManager.getInstance().getContainerofDate(TManager.getInstance().getNowTime()).getTomatoCount()+"");
+            }
+            //从manager读取连续番茄
+            consecutivetomato.setText(TManager.getInstance().getTomatoClock().getConsecutivecount()+"");
+
             //System.out.println("load timer from manager");
             //manager的倒计时结束
             if(TManager.getInstance().getTomatoClock().isCountingDown()==false && isCounting && thiscounting){
@@ -373,7 +384,8 @@ public class TCountdownPanel extends TPanel{
                     result = JOptionPane.showConfirmDialog(null, "休息结束，恭喜你完成了一个番茄！\n接下来是专注时间！（点击是直接开始下一次计时）",
                             "Tomato Time", JOptionPane.YES_NO_OPTION);
                     addTomato();
-
+                    //向日历（当天）添加番茄
+                    addTomatoToCalender();
                 }
                 else{
                     result = JOptionPane.showConfirmDialog(null, "专注结束，接下来休息一下吧！（点击是直接开始下一次计时）",
@@ -487,6 +499,7 @@ public class TCountdownPanel extends TPanel{
                 //创建新容器
                 container = TManager.getInstance().getCalender().createDateContainer(now);
                 container.addTomatoCount();
+                System.out.println("新容器已创建，已添加番茄");
             }
         }
 

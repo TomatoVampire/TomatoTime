@@ -1,7 +1,10 @@
 package TTimepkg;
 
 import java.io.Serializable;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -102,6 +105,35 @@ public class TClock extends TTimeFlowSkeleton implements Serializable {
     public TTime getTTime(){return time;}
     public void setTTime(TTime t){time = t;}
 
+    //同步网络时间
+    public void syncronizeWebTime(String web){
+        try{
+            URL url = new URL(web);//获取资源对象
+            URLConnection uc = url.openConnection();//生成连接对象
+            uc.connect();//建立连接
+            Long ld = uc.getDate();//读取网站时间
+            System.out.println(ld);//毫秒数
+            Date date = new Date(ld);
+            int year = date.getYear()+1900;
+            int month = date.getMonth()+1;
+            int day = date.getDate();
+            int hour = date.getHours();
+            int minute = date.getMinutes();
+            int second = date.getSeconds();
+
+            //装载
+            time.setDate(year,month,day);
+            time.setClock(hour,minute,second);
+            //test
+            //time.setDate(date.getYear()+1900,date.getMonth()+1,date.getDate());
+            //time.setClock(date.getHours(),date.getMinutes(),date.getSeconds());
+            //System.out.println(time);
+            //System.out.println(new Date(ld));
+        }catch (Exception e){
+            System.out.println("同步网络时间失败！");
+            System.out.println(e.getMessage());
+        }
+    }
     /*@Override public int hashCode(){
         int result = time.get(GregorianCalendar.HOUR_OF_DAY);
         result = result*31+time.get(GregorianCalendar.MINUTE);

@@ -136,6 +136,7 @@ public class TCalenderPanel extends TPanel{
         calenderFullPanel.add(calenderPanel,BorderLayout.CENTER);
     }
 
+    //绘制日历，包含日历按钮，可以选择各个日期
     private void paintCalenderPanel(TTime selected){
         try {
             if(selectedButton!=null) selectedButton.losefocus();
@@ -237,7 +238,7 @@ public class TCalenderPanel extends TPanel{
         datemark = TFrameTools.createLabel("无");
         modifieddatemark = TFrameTools.createLabel("无");
 
-        //修改按钮
+        //修改日期类型按钮
         JButton upbtn = TFrameTools.createTButton("修改");
         upbtn.addActionListener(new ActionListener() {
             @Override
@@ -245,22 +246,31 @@ public class TCalenderPanel extends TPanel{
                 //修改日期类型
                 TDateMark.DateType types[] = {TDateMark.DateType.WORKDAY,TDateMark.DateType.RESTDAY,TDateMark.DateType.ULTRAWORK};
                 TDateMark.DateType mark = (TDateMark.DateType)JOptionPane.showInputDialog(null,
-                        "请选择日期类型","修改日期类型",
+                        "请选择日期类型","Tomato Time",
                         1,null,types,types[0]);
-                System.out.println(selectedDate.toString()+"日期类型修改为："+mark);
-                changeDateMark(selectedDate,mark);
-                paintAll(selectedDate);
+                if(mark!=null) {
+                    System.out.println(selectedDate.toString() + "日期类型修改为：" + mark);
+                    changeDateMark(selectedDate, mark);
+                    paintAll(selectedDate);
+                }
             }
         });
+        //修改自定义类型按钮
         JButton downbtn = TFrameTools.createTButton("修改");
         downbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //修改自定义日期
                 String memo =JOptionPane.showInputDialog(null,
-                        "请输入纪念日名称：\n", "修改纪念日", JOptionPane.PLAIN_MESSAGE);
-                System.out.println(selectedDate.toString()+"纪念日修改为："+memo);
-                changeModifiedDateMark(selectedDate,memo);
+                        "请输入纪念日名称：\n", "Tomato Time", JOptionPane.PLAIN_MESSAGE);
+                if(memo!=null) {
+                    if(memo.equals(""))
+                        selectedButton.loseModifiedDateMark();
+                        else
+                            selectedButton.activeModifiedDateMark();
+                    changeModifiedDateMark(selectedDate, memo);
+                    System.out.println(selectedDate.toString() + "纪念日修改为：" + memo);
+                }
                 paintAll(selectedDate);
             }
         });
@@ -294,6 +304,10 @@ public class TCalenderPanel extends TPanel{
             weekdaydes.setText(s2);
 
             //读取当天的番茄
+            if(TManager.getInstance().hasContainerofDate(selected))
+                tomatoCount.setText(TManager.getInstance().getContainerofDate(selected).getTomatoCount()+"");
+            else
+                tomatoCount.setText("0");
 
             panel.repaint();
         }
@@ -418,14 +432,16 @@ public class TCalenderPanel extends TPanel{
                 //boolean b = todoItemPanelList.get(3).getPanel().isVisible();
                 //todoItemPanelList.get(3).getPanel().setVisible(!b);
                 if(todoStringList.size()>=MaxTodoItemPanelCount){
-                    JOptionPane.showMessageDialog(null,"待办事项最多可以添加\"+MaxTodoItemPanelCount+\"个！","待办事项已满",
+                    JOptionPane.showMessageDialog(null,"待办事项最多可以添加\"+MaxTodoItemPanelCount+\"个！",
+                            "Tomato Time",
                             JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
-                String nstr = JOptionPane.showInputDialog(null, "添加待办事项",
-                        "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
+                String nstr = JOptionPane.showInputDialog(null, "请输入待办事项的新内容：",
+                        "Tomato Time", JOptionPane.PLAIN_MESSAGE);
+                if(nstr==null) return;
                 if(nstr.equals("")){
-                    JOptionPane.showMessageDialog(null,"输入待办事项内容不可为空！","待办事项不可为空",JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"输入待办事项内容不可为空！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
                 }
                 else {
                     todoStringList.add(nstr);
@@ -543,10 +559,12 @@ public class TCalenderPanel extends TPanel{
         paintAll(selectedDate);
     }
 
+    //日历按钮
     class TDateButton extends JButton{
 
         TTime reftime;
         JLabel memolabel;
+        JLabel modifiedmark;//如果有自定义日期，则添加这个标志
         int tomatoCount;
 
         public TDateButton(){
@@ -559,7 +577,12 @@ public class TCalenderPanel extends TPanel{
             //addActionListener(new DateActionListener());
             memolabel = new JLabel();
             memolabel.setFont(new Font("微软雅黑",0,14));
+            modifiedmark = new JLabel("*");
+            modifiedmark.setFont(new Font("Consolas",1,18));
+            modifiedmark.setForeground(new Color(226, 103, 94));
+            modifiedmark.setVisible(false);//todo
             this.add(memolabel,AfMargin.TOP_RIGHT);
+            this.add(modifiedmark,AfMargin.BOTTOM_CENTER);
             setBorder(TFrameTools.EmptyDateBorder);
         }
 
@@ -591,6 +614,7 @@ public class TCalenderPanel extends TPanel{
             setEnabled(false);
             setText(" ");
             memolabel.setText(" ");
+            modifiedmark.setVisible(false);
             losefocus();
         }
 
@@ -608,6 +632,9 @@ public class TCalenderPanel extends TPanel{
         public void losefocus(){
             setBorder(TFrameTools.EmptyDateBorder);
         }
+        //自定义日期标记相关
+        public void activeModifiedDateMark(){modifiedmark.setVisible(true);}
+        public void loseModifiedDateMark(){modifiedmark.setVisible(false);}
 
         public void setDateType(TDateMark.DateType type){
             if(type==null){
@@ -645,6 +672,7 @@ public class TCalenderPanel extends TPanel{
         }
     }
 
+    //待办事项
     class TodoItemPanel {
         int orderInContainer;
         JLabel label;
@@ -673,9 +701,10 @@ public class TCalenderPanel extends TPanel{
             editbtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String nstr = JOptionPane.showInputDialog(null, "输入修改内容",
-                            "请输入待办事项的新内容：", JOptionPane.PLAIN_MESSAGE);
-                    if(nstr != null && nstr != "") {
+                    String nstr = JOptionPane.showInputDialog(null, "请输入待办事项的新内容：",
+                            "Tomato Time", JOptionPane.PLAIN_MESSAGE);
+                    if(nstr==null) return;
+                    if(nstr != "") {
                         setText(nstr);
                         try {
                             //修改strlist的内容
@@ -686,7 +715,7 @@ public class TCalenderPanel extends TPanel{
                         }
                     }
                     else{
-                        JOptionPane.showMessageDialog(null,"输入待办事项不可为空！","待办事项不可为空",JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"输入待办事项不可为空！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
                     }
                 }
             });

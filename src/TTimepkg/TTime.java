@@ -25,7 +25,7 @@ public class TTime implements Serializable {
 
     //todo 联网获取时间，参数：时区 会更新时钟和日期
     public void synchronizeTime(TimeZone timezone){
-        //todo 使用？库
+        //todo 使用库进行同步
         time.setTimeZone(timezone);
     }
 
@@ -40,8 +40,9 @@ public class TTime implements Serializable {
     //设置时钟，参数为时分秒
     public void setClock(int hour,int minute,int second){
         if(hour<0 || hour>24||minute<0 || minute>60 || second<0 || second>60) throw new IllegalArgumentException("出错！时钟参数无效！");
-        if(hour > 12) time.set(GregorianCalendar.PM,hour-12);
-        else time.set(GregorianCalendar.AM,hour);
+        //???todo
+        if(hour > 12) time.set(GregorianCalendar.HOUR_OF_DAY,hour);
+        else time.set(GregorianCalendar.HOUR_OF_DAY,hour);
         time.set(GregorianCalendar.MINUTE,minute);
         time.set(GregorianCalendar.SECOND,second);
     }
@@ -99,6 +100,8 @@ public class TTime implements Serializable {
         temp.append(getSecond() + "秒");
         return temp.toString();
     }
+
+
 
 
 }
