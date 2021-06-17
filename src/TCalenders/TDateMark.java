@@ -24,7 +24,7 @@ public class TDateMark implements DateMarker, Serializable {
     }
 
     //todo 枚举类
-    public static enum DateType{
+    public enum DateType{
         WORKDAY("工作日", TFrameTools.WORKDAYCOLOR),//工作日，无标记
         ULTRAWORK("调休日", TFrameTools.ULTRAWORKDAYCOLOR),//调休日，红色
         RESTDAY("休息日", TFrameTools.HOLIDAYCOLOR);//休息日（包含法定节假日），绿色//自定义日期，紫色

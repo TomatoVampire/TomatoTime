@@ -74,10 +74,10 @@ public class TMainFrame {
         sidePanel.setLayout(new GridLayout(5,1));
         sidePanel.setPreferredSize(new Dimension(320,960));
         //侧边按钮们
-        clockbtn = TFrameTools.createTButton("CLOCK");
-        calenderbtn = TFrameTools.createTButton("CALENDER");
-        countdownbtn = TFrameTools.createTButton("COUNTDOWN");
-        aboutbtn = TFrameTools.createTButton("ABOUT");
+        clockbtn = TFrameTools.createTButton("时钟");
+        calenderbtn = TFrameTools.createTButton("日历");
+        countdownbtn = TFrameTools.createTButton("倒计时");
+        aboutbtn = TFrameTools.createTButton("关于");
         //侧边memo显示
         setSideMemoPanel();
 
@@ -119,6 +119,10 @@ public class TMainFrame {
         mainFrame.setResizable(false);
         mainFrame.setBackground(new Color(255, 255, 255, 255));
         mainFrame.setLayout(new BorderLayout());
+        //todo 应用程序图标
+        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(TMainFrame.class.getResource("/Resources/TomatoIcon.png")));
+
+
         //todo 关闭行为：保存instance，关闭程序
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override

@@ -62,9 +62,6 @@ public abstract class TTimeFlowSkeleton implements TTimeFlow,Runnable {
     //todo @Override public void setTask() { }
     public abstract void setTask();
 
-    //监听器？？？
-    //放进gui的时候可能需要重写
-
     @Override
     public void run() {
         while(true) {

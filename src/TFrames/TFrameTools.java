@@ -20,7 +20,7 @@ public class TFrameTools {
     public static final Color SELECTEDDATE = new Color(36, 154, 227);
 
 
-    public static final Font CLOCKFONT = new Font("Consolas",1,40);
+    public static final Font CLOCKFONT = new Font("Consolas",1,50);
     public static final Font BUTTONFONT = new Font("Consolas",1,20);
     public static final Font TEXTFONT = new Font("微软雅黑",1,20);
     public static final Font SMALLTEXTFONT = new Font("微软雅黑",0,15);
@@ -82,15 +82,15 @@ public class TFrameTools {
 
     public static JTextField createTextField(String text){
         JTextField textField = new JTextField(text);
-        textField.setFont(TFrameTools.TEXTFONT);
-        textField.setBackground(TFrameTools.TRANSPARANT);
+        textField.setFont(TFrameTools.SMALLTEXTFONT);
+        //textField.setBackground(TFrameTools.TRANSPARANT);
         return textField;
     }
 
     public static JTextArea createTextArea(String text){
         JTextArea textField = new JTextArea(text);
         textField.setFont(TFrameTools.TEXTFONT);
-        textField.setBackground(TFrameTools.TRANSPARANT);
+        //textField.setBackground(TFrameTools.TRANSPARANT);
         return textField;
     }
 

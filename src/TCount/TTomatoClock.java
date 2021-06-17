@@ -8,6 +8,7 @@ public class TTomatoClock extends TCountdown implements Serializable {
     //当前倒计时
     //private TCountdown currentCountdown;
     private boolean isBreakTime;
+    private boolean breakdone;//当前休息是否完成
     private final long worktime = 5;//1500;//25min
     private final long breaktime = 3;//300;//5min
     private final long longbreaktime = 5;//长休息25min
@@ -15,6 +16,7 @@ public class TTomatoClock extends TCountdown implements Serializable {
     public TTomatoClock(){
         consecutivecount = 0;
         isBreakTime = true;
+        breakdone = false;
         initialTimer = worktime;
         nowtimer = initialTimer;
     }
@@ -23,12 +25,15 @@ public class TTomatoClock extends TCountdown implements Serializable {
         if(isBreakTime){
             System.out.println("now let's start work!");
             //setTimer(worktime);
+            if(breakdone) consecutivecount++;
+            breakdone = false;
         }
         else{
             System.out.println("now let's take a break!");
             //if(consecutivecount==4) setTimer(longbreaktime);
             //else setTimer(breaktime);
-            consecutivecount++;
+            //consecutivecount++;
+            breakdone = true;
         }
         isBreakTime = !isBreakTime;
         startCount();
@@ -56,7 +61,7 @@ public class TTomatoClock extends TCountdown implements Serializable {
             setTimer(worktime);
         }
         else{
-            if(consecutivecount==4) setTimer(longbreaktime);
+            if(consecutivecount%4==0) setTimer(longbreaktime);
             else setTimer(breaktime);
         }
     }

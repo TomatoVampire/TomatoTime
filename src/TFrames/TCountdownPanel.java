@@ -82,7 +82,7 @@ public class TCountdownPanel extends TPanel{
             timer = new Timer(10,e->paintTimer());
             timer.start();
 
-            timerdisp = TFrameTools.createTButton("00:00:00",new Font("Consolas",1,50));
+            timerdisp = TFrameTools.createTButton("00:00:00",TFrameTools.CLOCKFONT);
             //timer.setToolTipText("点击中央的时间来设置倒计时时间");
             timerdisp.setContentAreaFilled(false);
             timerdisp.setPreferredSize(new Dimension(400,200));
@@ -362,13 +362,16 @@ public class TCountdownPanel extends TPanel{
             /*String remain = TManager.getInstance().getTomatoClock().getNowTimerHour()+":"
                     +TManager.getInstance().getTomatoClock().getNowTimerMinute()+":"
                     +TManager.getInstance().getTomatoClock().getNowTimerSecond();*/
-            String remain = TManager.getInstance().getCountdown().getNowtimer();
+            String remain = TManager.getInstance().getTomatoClock().getNowtimer();
             timerdisp.setText(remain);
 
             //读取、同步当日tomato
-            //从日历读取今日番茄，未读取到则使用本地的内存
+            //从日历读取今日番茄，未读取到则使用本地的内存//清0？
             if(TManager.getInstance().hasContainerofDate(TManager.getInstance().getNowTime())){
                 tomatoCount.setText(TManager.getInstance().getContainerofDate(TManager.getInstance().getNowTime()).getTomatoCount()+"");
+            }
+            else{
+                tomatoCount.setText("0");
             }
             //从manager读取连续番茄
             consecutivetomato.setText(TManager.getInstance().getTomatoClock().getConsecutivecount()+"");

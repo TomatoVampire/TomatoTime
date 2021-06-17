@@ -43,7 +43,7 @@ public class TCalenderPanel extends TPanel{
         initDateDescriptionPanel();
         initTodoListPanel();
 
-        dateDescriptionPanel.setBackground(new Color(239, 145, 145));
+        dateDescriptionPanel.setBackground(new Color(246, 210, 210));
         dateDescriptionPanel.setPreferredSize(new Dimension(620,250));
 
         todoListPanel.setPreferredSize(new Dimension(300,900));
@@ -166,8 +166,18 @@ public class TCalenderPanel extends TPanel{
                         if(temp == selected.getDay()) {selectedButton = dates[i][j];selectedButton.selectButton();}
                         if(TManager.getInstance().getContainerofDate(ntime)==null){
                             dates[i][j].setDateType(getDefaultType(ntime));
+                            dates[i][j].loseModifiedDateMark();
                         }else{
                             dates[i][j].setDateType(TManager.getInstance().getContainerofDate(ntime).getDatemark().getDateType());
+                            TDateContainer container = TManager.getInstance().getContainerofDate(ntime);
+                            String ntemp = container.getModifiedDate(0).getMemo();
+                            //有自定义日期，且不是空
+                            if(container.getModifiedDate(0)!=null
+                            &&(!container.getModifiedDate(0).getMemo().equals("")))
+                            {
+                                dates[i][j].activeModifiedDateMark();
+                            }
+                            else dates[i][j].loseModifiedDateMark();
                         }
                         temp++;
                     }
@@ -236,7 +246,7 @@ public class TCalenderPanel extends TPanel{
         JLabel s2 = TFrameTools.createLabel("纪念：");
         s2.setVerticalAlignment(SwingConstants.CENTER);
         datemark = TFrameTools.createLabel("无");
-        modifieddatemark = TFrameTools.createLabel("无");
+        modifieddatemark = TFrameTools.createLabel("");
 
         //修改日期类型按钮
         JButton upbtn = TFrameTools.createTButton("修改");
@@ -432,7 +442,7 @@ public class TCalenderPanel extends TPanel{
                 //boolean b = todoItemPanelList.get(3).getPanel().isVisible();
                 //todoItemPanelList.get(3).getPanel().setVisible(!b);
                 if(todoStringList.size()>=MaxTodoItemPanelCount){
-                    JOptionPane.showMessageDialog(null,"待办事项最多可以添加\"+MaxTodoItemPanelCount+\"个！",
+                    JOptionPane.showMessageDialog(null,"待办事项最多可以添加"+MaxTodoItemPanelCount+"个！",
                             "Tomato Time",
                             JOptionPane.PLAIN_MESSAGE);
                     return;
@@ -456,6 +466,7 @@ public class TCalenderPanel extends TPanel{
         todoListPanel.add(headp,BorderLayout.NORTH);
         todoListPanel.add(listpanel,BorderLayout.CENTER);
 
+        paintAll(selectedDate);
         panel.repaint();
 
     }
@@ -579,7 +590,7 @@ public class TCalenderPanel extends TPanel{
             memolabel.setFont(new Font("微软雅黑",0,14));
             modifiedmark = new JLabel("*");
             modifiedmark.setFont(new Font("Consolas",1,18));
-            modifiedmark.setForeground(new Color(226, 103, 94));
+            modifiedmark.setForeground(TFrameTools.MODIFIEDDAYCOLOR);
             modifiedmark.setVisible(false);//todo
             this.add(memolabel,AfMargin.TOP_RIGHT);
             this.add(modifiedmark,AfMargin.BOTTOM_CENTER);

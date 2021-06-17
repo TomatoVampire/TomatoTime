@@ -35,17 +35,17 @@ public class TAboutPanel extends TPanel{
                 }
             }
         });
-        JButton button = TFrameTools.createTButton("重置日历");
+        JButton button = TFrameTools.createTButton("重置");
         button.setToolTipText("将日历的内容清空");
         //清空日历
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int r = JOptionPane.showConfirmDialog(null,
-                        "该操作会将所有的日历内容清空，确定要这么做吗？","Tomato Time",JOptionPane.YES_NO_OPTION);
+                        "该操作会将应用所有的内容清空，确定要这么做吗？","Tomato Time",JOptionPane.YES_NO_OPTION);
                 if(r==0){
                     TManager.getInstance().reset();
-                    JOptionPane.showMessageDialog(null,"成功重置日历内容。","Tomato Time",
+                    JOptionPane.showMessageDialog(null,"成功重置应用内容。","Tomato Time",
                             JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -79,6 +79,7 @@ public class TAboutPanel extends TPanel{
                 "使用Java Swing实现。\n" +
                 "希望能给你愉快的体验~");
         //info.setAlignmentY();
+        info.setBackground(new Color(168, 226, 193));
         info.setEditable(false);
         info.setFocusable(false);
 
