@@ -20,6 +20,7 @@ public class TDateContainer implements Serializable {
         tomatoCount = 0;
         datemark = TDateMark.InitDateMark(TDateMark.DateType.WORKDAY);
         modifiedDayMarks = new ArrayList<>();
+        addModifiedDate(new TDateModified(""));
         todoList = new TTodoList();
     }
 

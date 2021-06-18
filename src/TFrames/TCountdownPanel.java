@@ -116,7 +116,7 @@ public class TCountdownPanel extends TPanel{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int result = JOptionPane.showConfirmDialog(null,
-                            "确定要停止计时吗？","停止计时",JOptionPane.YES_NO_OPTION);
+                            "确定要停止计时吗？","Tomato Time",JOptionPane.YES_NO_OPTION);
                     if(result==0){
                         System.out.println("取消计时");
                         cancelCountdown();
@@ -160,6 +160,9 @@ public class TCountdownPanel extends TPanel{
             boolean countsuccess = false;
             if(isCounting) {
                 System.out.println("正在倒计时，无法开始新的倒计时！！");
+                JOptionPane.showMessageDialog(null,"当前有倒计时/番茄正在进行，无法开始倒计时！","Tomato Time",
+                        JOptionPane.PLAIN_MESSAGE);
+                return;
             }
             if(TManager.getInstance().getCountdown().isCountingDown()==false){
                 TManager.getInstance().getCountdown().startCount();
@@ -244,7 +247,7 @@ public class TCountdownPanel extends TPanel{
                             paintTimer();
                             //JOptionPane.showMessageDialog("");
                         }catch (Exception ex){
-                            JOptionPane.showMessageDialog(null,"输入时间有误！","出错",JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showMessageDialog(null,"输入时间有误！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
                         }
 
                     }
@@ -313,7 +316,7 @@ public class TCountdownPanel extends TPanel{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int result = JOptionPane.showConfirmDialog(null,
-                            "确定要停止计时吗？当前连续番茄会清零。","停止计时",JOptionPane.YES_NO_OPTION);
+                            "确定要停止计时吗？当前连续番茄会清零。","Tomato Time",JOptionPane.YES_NO_OPTION);
                     if(result==0){
                         System.out.println("取消计时");
                         cancelCountdown();
@@ -384,9 +387,9 @@ public class TCountdownPanel extends TPanel{
                 isbreak= TManager.getInstance().getTomatoClock().isBreaktime();
                 int result;
                 if(isbreak) {
+                    addTomato();
                     result = JOptionPane.showConfirmDialog(null, "休息结束，恭喜你完成了一个番茄！\n接下来是专注时间！（点击是直接开始下一次计时）",
                             "Tomato Time", JOptionPane.YES_NO_OPTION);
-                    addTomato();
                     //向日历（当天）添加番茄
                     addTomatoToCalender();
                 }

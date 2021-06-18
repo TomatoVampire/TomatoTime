@@ -726,7 +726,8 @@ public class TCalenderPanel extends TPanel{
                         }
                     }
                     else{
-                        JOptionPane.showMessageDialog(null,"输入待办事项不可为空！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"输入待办事项不可为空！",
+                                "Tomato Time",JOptionPane.PLAIN_MESSAGE);
                     }
                 }
             });

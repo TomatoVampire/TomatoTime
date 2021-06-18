@@ -241,10 +241,10 @@ class TEditTimeBar extends JPanel{
                               Integer.valueOf(hour.getText()).intValue(),
                               Integer.valueOf(minute.getText()).intValue(),
                               Integer.valueOf(second.getText()).intValue());
-                      JOptionPane.showMessageDialog(inpanel,"修改时间成功！","Tomato TIme",JOptionPane.PLAIN_MESSAGE);
+                      JOptionPane.showMessageDialog(inpanel,"修改时间成功！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
                   }catch (Exception ex){
                       TManager.getInstance().setNowtime(temp);
-                      JOptionPane.showMessageDialog(inpanel,"输入参数有误！","Tomato TIme",JOptionPane.PLAIN_MESSAGE);
+                      JOptionPane.showMessageDialog(inpanel,"输入参数有误！","Tomato Time",JOptionPane.PLAIN_MESSAGE);
 
                   }
               }
