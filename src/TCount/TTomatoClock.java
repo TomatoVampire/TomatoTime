@@ -9,9 +9,9 @@ public class TTomatoClock extends TCountdown implements Serializable {
     //private TCountdown currentCountdown;
     private boolean isBreakTime;
     private boolean breakdone;//当前休息是否完成
-    private final long worktime = 5;//1500;//25min
-    private final long breaktime = 3;//300;//5min
-    private final long longbreaktime = 5;//1500;//长休息25min
+    private final long worktime = 1500;//25min
+    private final long breaktime = 300;//5min
+    private final long longbreaktime = 1500;//长休息25min
 
     public TTomatoClock(){
         consecutivecount = 0;

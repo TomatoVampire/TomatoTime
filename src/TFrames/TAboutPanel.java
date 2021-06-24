@@ -44,6 +44,7 @@ public class TAboutPanel extends TPanel{
                 int r = JOptionPane.showConfirmDialog(null,
                         "该操作会将应用所有的内容清空，确定要这么做吗？","Tomato Time",JOptionPane.YES_NO_OPTION);
                 if(r==0){
+                    TMainFrame.getInstance().reset();
                     TManager.getInstance().reset();
                     JOptionPane.showMessageDialog(null,"成功重置应用内容。","Tomato Time",
                             JOptionPane.PLAIN_MESSAGE);

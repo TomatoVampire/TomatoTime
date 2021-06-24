@@ -15,8 +15,8 @@ public class TCountdownPanel extends TPanel{
 
     JPanel cardPanel;
     JPanel selectbtnpanel;
-    JPanel countdownPanel;
-    JPanel tomatoPanel;
+    CountdownPanel countdownPanel;
+    TomatoPanel tomatoPanel;
 
     boolean isCounting;
 
@@ -199,6 +199,10 @@ public class TCountdownPanel extends TPanel{
             endCountdownCheck();
             isCounting = false;
             thiscounting = false;
+        }
+
+        public void reset(){
+            cancelCountdown();
         }
 
         class TEditTimeBar extends JPanel{
@@ -514,9 +518,18 @@ public class TCountdownPanel extends TPanel{
             consecutivetomato.setText((Integer.valueOf(consecutivetomato.getText())+1) + "");
         }
 
+        public void reset(){
+            hint.setText("开始专注");
+            cancelCountdown();
+        }
+
     }
 
 
+    public void reset(){
+        countdownPanel.reset();
+        tomatoPanel.reset();
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("倒计时");

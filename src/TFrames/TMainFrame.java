@@ -157,6 +157,10 @@ public class TMainFrame {
         mainFrame.setVisible(true);
     }
 
+    public void reset(){
+        tCountdownPanel.reset();
+    }
+
     public static void main(String[] args) {
         TMainFrame mainFrame = TMainFrame.getInstance();
     }
